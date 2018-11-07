@@ -4,49 +4,32 @@
   >
     <div class="menu-breakdown mobile-only animated fadeInLeft">
       <div class="parent-wrapper"
-        v-for="(item, index) in menu.items"
-        
+        v-for="(item, index) in menu.items"  
       >
-        <div class="parent-item">
-          <router-link class="parent-item" :to="fixPath(item.url)" exact>
-            <span v-html="item.title"></span>
-            <span class="caret" v-if="item.children">›</span>
-          </router-link>
+        <router-link class="parent-item" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
+          <span v-html="item.title"></span>
+        </router-link>
+        <div class="parent-item" @click.stop="triggerMenu(true)" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
+          <span v-html="item.title"></span>
         </div>
-        <transition name="slide">
-          <div class="children" v-if="item.children && openItem === index">
-            <div class="child-wrapper" v-for="child in item.children">
-              <div class="child-item"
-                @click="linkOrNotLink(child)"
-              >
-                <span v-html="child.title"></span>
-              </div>
-            </div>
-          </div>
-        </transition>
+        <router-link class="child-item" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
+          <span v-html="item.title"></span>
+        </router-link>
       </div>
     </div>
     <div class="menu-breakdown desktop-only animated fadeInLeft">
       <div class="parent-wrapper desktop-only"
         v-for="(item, index) in menu.items"
-        v-bind:class="{'has-children': item.children}"
       >
-        <a class="parent-item" v-if="item.children">
-          <span v-html="item.title"></span>
-          <span class="caret" v-if="item.children">›</span>
-        </a>
-        <router-link class="parent-item" :to="fixPath(item.url)" exact v-bind:class="{ 'not-link': (true) }">
-        <!--<nuxt-link class="parent-item" :to="slugTo(item)" v-else>-->
+        <router-link class="parent-item" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
           <span v-html="item.title"></span>
         </router-link>
-        <!--</nuxt-link>-->
-        <div class="children" v-if="item.children">
-          <!--<nuxt-link :to="slugTo(child)" class="child-wrapper" v-for="child in item.children" :key="child.id">-->
-            <div class="child-item">
-              <span v-html="child.title"></span>
-            </div>
-          <!--</nuxt-link>-->
+        <div class="parent-item" @click.stop="triggerMenu(true)" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
+          <span v-html="item.title"></span>
         </div>
+        <router-link class="child-item" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
+          <span v-html="item.title"></span>
+        </router-link>
       </div>
     </div>
   </div>
@@ -66,17 +49,9 @@ export default {
     menu () {
       return this.$store.state.menu
     }
-    /*menu () {
-      if (this.$store.state.useDefaultLang) {
-        return this.$store.state.menus.de
-      } else {
-        return this.$store.state.menus.fr
-      }
-    }*/
   },
   mounted () {
     this.openItem = ''
-    //this.$store.commit('setShowMobileMenu', false)
   },
   methods: {
     toggleThisParentItem(index) {
@@ -101,6 +76,13 @@ export default {
         path = ("/"+path[path.length-2]);
       }
       return path
+    },
+    triggerMenu (param) {
+      this.menuIsOpen = !this.menuIsOpen
+      this.$store.commit('setShowMobileMenu', this.menuIsOpen)
+      if (param) {
+        this.$store.commit('setShowMobileMenu', param)
+      }
     }
   }
 }
@@ -238,7 +220,7 @@ export default {
           max-width: 250px;
         }
 
-        &:hover {
+        & a:hover {
           cursor: pointer;
 
           .parent-item {          

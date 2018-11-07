@@ -7,7 +7,7 @@
           <div class="is-fluid navbar-container">
             <div id="#nav-burger-trigger" class="navbar-burger animated fadeIn delay-1s"
               v-bind:class="{ 'is-active': showMobileMenu }"
-              @click.stop="triggerMenu()"
+              @click.stop="triggerMenu(true)"
               style="cursor: pointer;"
             >
               <div class="burger-wrapper">
@@ -57,14 +57,10 @@
 
 <script>
 import WpMenus from './WpMenus.vue'
-//import langSwitcher from '~/components/langSwitcher.vue'
-//import searchTrigger from '~/components/searchTrigger.vue'
 
 export default {
   components: {
-    //langSwitcher,
     WpMenus
-    //searchTrigger
   },
   computed: {
     showMobileMenu () {
@@ -84,7 +80,7 @@ export default {
       this.menuIsOpen = !this.menuIsOpen
       this.$store.commit('setShowMobileMenu', this.menuIsOpen)
       if (param) {
-        this.$store.commit('setShowMobileMenu', false)
+        this.$store.commit('setShowMobileMenu', param)
       }
     }
   }
