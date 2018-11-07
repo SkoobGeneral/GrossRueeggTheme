@@ -20,8 +20,8 @@
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__img image is-square" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
-          <!--<p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-weight: bold; overflow-x: hidden;"></p>
-          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>-->
+          <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-weight: bold; overflow-x: hidden;"></p>
+          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
         </router-link>
       </div>
     </Isotope>

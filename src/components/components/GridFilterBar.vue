@@ -3,7 +3,7 @@
     <div
       class="container has-text-centered mb-2 animated fadeIn delay-1s"
     >
-      <ul class="is-tablet is-multiline" style="margin: auto;">
+      <ul style="margin: auto;">
         <li class="is-paddingless"
             v-for="taxonomy in taxonomies"
             v-if="taxonomy.count || taxonomy.id === 0"
@@ -71,12 +71,15 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
   li {
     border-left: 1px solid #f25f2e;
+    border-right: 1px solid #f25f2e;
     &:first-child {
-    border: none !important;
+    border-left: 1px solid #f25f2e;
     }
+    
   }
   a {
     color: #AAA !important;
