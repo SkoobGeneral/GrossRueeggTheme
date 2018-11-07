@@ -1,5 +1,5 @@
 <template>
-  <div id="my-app" class="page-wrapper" @click.stop="triggerMenu(true)">
+  <div id="my-app" class="page-wrapper" @click.stop="triggerMenu(true)" v-bind:class="{ 'menu-opened': showMobileMenu }">
     <app-header></app-header>
     <Navigation></Navigation>
     <div class="container"></div>
@@ -181,6 +181,10 @@ export default {
   }
 }
 @media only screen and (min-width: 426px) {
+  .menu-opened {
+    height: 0;
+    overflow: hidden;
+  }
   .mobile-only {
     display: none !important;
   }

@@ -8,6 +8,7 @@
             <div id="#nav-burger-trigger" class="navbar-burger animated fadeIn delay-1s"
               v-bind:class="{ 'is-active': showMobileMenu }"
               @click.stop="triggerMenu()"
+              style="cursor: pointer;"
             >
               <div class="burger-wrapper">
                 <span></span>

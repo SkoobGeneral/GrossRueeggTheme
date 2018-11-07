@@ -44,7 +44,7 @@
           :key="index"
           v-for="(slide, index) in slides"
           class="dot"
-          style=""
+          style="cursor: pointer;"
           v-bind:class="{'dot':true, 'active':(current % slides.length === index)}"
           @click="selectSlide(index)"
           >

@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="post && !showMobileMenu"
-    class="contact-widget animated fadeIn delay-2s"
+    class="contact-widget animated fadeIn delay-1s"
     style="position: absolute; top: 132px; left: 0; z-index: 100; background: #dddddd; width: 52px;"
     @click.stop="triggerWidget(true)"
     v-bind:class="{ 'expanded': showContactWidget }"
   >
   <div style="background: rgba(41,44,49,1); color:white;">
-    <div class="close-widget animated fadeIn" v-bind:class="{ 'expanded': showContactWidget }" @click.stop="triggerWidget(false)" style="display: none;">
+    <div class="close-widget animated fadeIn" v-bind:class="{ 'expanded': showContactWidget }" @click.stop="triggerWidget(false)" style="cursor: pointer; display: none;">
       <Icons
       iconwidth="25px"
       iconheight="25px"
@@ -17,7 +17,7 @@
     </div>
     <ul class="is-marginless languages-tagline-container animated has-text-left has-text-weight-bold fadeIn mb-2"
       v-bind:class="{ 'expanded': showContactWidget }"
-      style="display: inline-flex; max-width: 52px; overflow: hidden;" 
+      style="display: inline-flex; max-width: 52px; cursor: pointer; overflow: hidden;" 
     >
       <li 
         :key="index"
