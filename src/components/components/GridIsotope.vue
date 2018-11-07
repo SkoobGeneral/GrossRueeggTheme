@@ -20,8 +20,8 @@
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__img image is-square mb-2" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
-          <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
-          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
+          <!--<p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
+          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>-->
         </router-link>
       </div>
     </Isotope>
@@ -152,7 +152,7 @@ export default {
   height: 261px;
 }
 .order_2, .order_4 {
-  width: 64.5%;
+  width: 58.6%;
 }
 .order_42 {
   width: 50%;
