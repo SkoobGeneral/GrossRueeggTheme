@@ -148,7 +148,7 @@ html {
 
         &:hover {
           background-color: transparent;
-          color: rgba($color-bg-light, 0.9);
+          color: #ee6c40;
         }
       }
 
