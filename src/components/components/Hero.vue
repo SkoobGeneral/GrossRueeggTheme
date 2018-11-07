@@ -14,10 +14,10 @@
           @click="next()"
         ><font-awesome-icon icon="chevron-right" size="lg"></font-awesome-icon></button>
       </div>
-      <transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 300 }">
+      <transition-group name="list-complete" mode="out-in">
         <div
           :key="index"
-          class="slide__item list-item"
+          class="slide__item list-item list-complete-item"
           v-for="(slide, index) in slides"
           :style="{backgroundImage: `url(${slide.picture.url}`}"
           v-if="current % slides.length === index"
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </transition-group>
       <div class="dots__container">
         <div
           :key="index"
@@ -171,5 +171,18 @@ export default {
     h6 {
       font-size: 14px;
     }
+  }
+
+  .list-complete-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+  .list-complete-leave-active {
+    position: absolute;
   }
 </style>

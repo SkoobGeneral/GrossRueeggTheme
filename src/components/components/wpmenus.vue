@@ -35,7 +35,7 @@
           <span v-html="item.title"></span>
           <span class="caret" v-if="item.children">›</span>
         </a>
-        <router-link class="parent-item" :to="fixPath(item.url)" exact>
+        <router-link class="parent-item" :to="fixPath(item.url)" exact v-bind:class="{ 'not-link': (true) }">
         <!--<nuxt-link class="parent-item" :to="slugTo(item)" v-else>-->
           <span v-html="item.title"></span>
         </router-link>

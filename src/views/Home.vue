@@ -3,7 +3,7 @@
     <ContactWidget
       :assets="post.acf.contact_widget.language_and_tagline"
       :member='post.acf.contact_widget.contact[0].post_name'
-      v-if="post.acf.contact_widget.show"
+      v-if="post && post.acf && post.acf.contact_widget && post.acf.contact_widget.show"
     ></ContactWidget>
     <Hero
       :per-page="1"
@@ -15,8 +15,8 @@
       style="margin: auto; padding: 0; max-width: 100%;"
     ></Hero>
     <ReferenceArchive
+      class="home-reference-archive"
       :posts="posts"
-      :show-toolbar="false"
       v-if="post"
     ></ReferenceArchive>
   </div>
@@ -68,4 +68,9 @@ export default {
 </script>
 
 <style lang="scss">
+  .home-reference-archive {
+    .grid-filter-bar__wrapper {
+      display: none;
+    }
+  }
 </style>

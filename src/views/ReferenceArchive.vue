@@ -3,7 +3,6 @@
     <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Referenzen</h2>
     <Grid
       :posts="posts"
-      :show-toolbar="true"
       v-if="posts"
     ></Grid>
   </b-container>
@@ -34,8 +33,6 @@ export default {
       }      
     }
   },
-
-  props: [ "showToolbar" ],
 
   mounted() {
     this.getReferences()

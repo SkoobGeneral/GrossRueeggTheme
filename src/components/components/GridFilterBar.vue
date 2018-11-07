@@ -75,11 +75,7 @@ export default {
   }
   li {
     border-left: 1px solid #f25f2e;
-    border-right: 1px solid #f25f2e;
-    &:first-child {
-    border-left: 1px solid #f25f2e;
-    }
-    
+    border-right: 1px solid #f25f2e;  
   }
   a {
     color: #AAA !important;

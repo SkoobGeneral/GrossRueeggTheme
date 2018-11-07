@@ -1,10 +1,10 @@
 <template>
   <b-container class="bv-example-row pt-1">
     <GridFilterBar
+      class="grid-filter-bar__wrapper"
       taxonomy-name="classification"
       :selected="0"
       v-on:select:taxonomy="selectTaxonomy($event)"
-      v-if="showToolbar"
     ></GridFilterBar>
     <GridIsotope
       ref="filter"
@@ -23,7 +23,7 @@ export default {
     GridFilterBar,
     GridIsotope,
   },
-  props: [ "limit", "posts", "theme", "showToolbar" ],
+  props: [ "limit", "posts", "theme" ],
   data() {
     return {
       selectedTaxonomy: 0,
