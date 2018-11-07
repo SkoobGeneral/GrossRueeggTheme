@@ -190,6 +190,12 @@ export default {
     border-radius: 0 !important;
     border-bottom: 2px solid rgb(0, 5, 7) !important;
     background: transparent;
+    & svg {
+      transition: fill .3s ease;
+    }
+    &:hover svg {
+      fill: #ee6c40;
+    }
   }
   .p-small {
     font-size: 14px !important;
