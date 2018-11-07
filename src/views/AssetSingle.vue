@@ -6,7 +6,8 @@
           <Icons
             iconwidth="28px"
             iconheight="28px"
-            icon="arrow-left" /><div class="ml-3">Immobilien</div>
+            icon="arrow-left"
+          /><div class="ml-3">Immobilien</div>
         </router-link>
         <template v-if="post">
         <Hero
@@ -23,7 +24,7 @@
             <p class="subtitle is-4" v-html="post.acf.place" v-if="post.acf.place && post.acf.place.length"></p>
           </div>
         </div>
-          <div class="columns" v-if="post.acf.three_columns && post.acf.three_columns.length">
+          <div class="columns content" v-if="post.acf.three_columns && post.acf.three_columns.length">
             <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
               <p v-html="post.acf.three_columns[0].column1" v-if="post.acf.three_columns[0].column1 && post.acf.three_columns[0].column1.length"></p>
             </div>
@@ -85,4 +86,5 @@ export default {
     text-decoration: none;
     color: rgb(54,54,54);
   }
+  .content p {margin:0 !important;}
 </style>

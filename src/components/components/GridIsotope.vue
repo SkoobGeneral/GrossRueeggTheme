@@ -19,9 +19,9 @@
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
-          <div class="item__img image is-square" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
-          <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-weight: bold; overflow-x: hidden;"></p>
-          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
+          <div class="item__img image is-square mb-2" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
+          <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
+          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
         </router-link>
       </div>
     </Isotope>
@@ -143,14 +143,16 @@ export default {
 }
 .grid-item {
   width: 100%;
-  margin-bottom: 10px;
-  border: 4px solid white;
+  height: 591px;
+  margin-bottom: 40px;
+  border: 6px solid white;
 }
 .order_1, .order_3, .order_5, .order_0 {
   width: 30%;
+  height: 261px;
 }
 .order_2, .order_4 {
-  width: 68%;
+  width: 64.5%;
 }
 .order_42 {
   width: 50%;

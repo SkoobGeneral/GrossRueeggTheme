@@ -74,8 +74,10 @@ export default {
     justify-content: center;
   }
   li {
-    border-left: 1px solid #f25f2e;
-    border-right: 1px solid #f25f2e;  
+    border-right: 1px solid #f25f2e;
+    &:last-child {
+      border-right: none;
+    }
   }
   a {
     color: #AAA !important;

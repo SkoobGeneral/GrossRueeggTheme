@@ -124,6 +124,7 @@ export default {
     &:hover {
       color: #ee6c40;
       outline: 0;
+      transition: color .3s ease;
     }
     &.prev{
       left: 50px;
@@ -157,6 +158,7 @@ export default {
     width: 12px;
     background: #dadada;
     margin-right: 8px;
+    transition: background .3s ease;
     &:hover {
       background: #ee6c40;
     }
