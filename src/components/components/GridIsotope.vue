@@ -101,7 +101,7 @@ export default {
 
           // Calculate the class based on the number of visible items
           var classx = 14
-          if (visible.length > 3) {
+          if (visible.length >= 3) {
             classx = (counter-1) % 6
           } else if (visible.length === 2) {
             classx = 42

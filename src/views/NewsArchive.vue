@@ -3,7 +3,6 @@
     <h2 class="title is-1 has-text-centered has-text-weight-light">News</h2>
     <GridNews
       :posts="posts"
-      :show-toolbar="true"
       v-if="posts"
     ></GridNews>
   </b-container>

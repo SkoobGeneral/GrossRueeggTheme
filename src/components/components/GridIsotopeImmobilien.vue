@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <!--<button class="button is-success">Do nothing</button>
     <button class="button is-warning" @click="addItem()">Add item</button>
     <button class="button is-danger" @click="removeItem()">Remove</button>-->
@@ -15,17 +15,13 @@
       <div
         v-for="(post, index) in items"
         :key="post.id"
-        :class="`order_${post.order}`"
+        :class="`order_${post.class}`"
         class="grid-item"
       > 
-      <router-link :to="`/${post.type}/${post.slug}`">
-        <div>
-          <figure>
-            <img :src="post.acf.hero_carousel[0].picture.url" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length" />
-          </figure>
-        </div>
-        <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-weight: bold; overflow-x: hidden;"></p>
-        <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
+        <router-link :to="`/${post.type}/${post.slug}`">
+          <div class="item__img image is-square mb-2" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
+          <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
+          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
         </router-link>
       </div>
     </Isotope>
@@ -48,6 +44,7 @@ export default {
     return {
       items: this.posts,
       finalSelection: 0,
+      totalVisibleItems: 0
     }
   },
 
@@ -55,11 +52,17 @@ export default {
     isotopeOptions () {
       var that = this
       return {
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        masonry: {
+          columnWidth: 1,
+          gutter: 0
+        },
         getSortData: {
           id: "id"
         },
         getFilterData: {
-          filterByClassification2 (item) {
+          filterByClassification (item) {
             if (!that.selected) {
               return true
             }
@@ -67,8 +70,7 @@ export default {
           }
         }
       }
-    }
-
+    },
   },
   methods: {
     isInvisible(index, taxonomy) {
@@ -96,12 +98,25 @@ export default {
         if (post.visible) {
           Vue.set(this.posts[index], 'order', counter)
           counter++
+
+          // Calculate the class based on the number of visible items
+          var classx = 14
+          if (visible.length >= 3) {
+            classx = (counter-1) % 6
+          } else if (visible.length === 2) {
+            classx = 42
+          }
+          Vue.set(this.posts[index], 'class', classx)
+
         } else {
           Vue.set(this.posts[index], 'order', 0)
         }
       })
+
+      this.totalVisibleItems = counter - 1
     }
   },
+
 
   mounted () {
     this.refresh()
@@ -109,8 +124,10 @@ export default {
 
   watch: {
     selected (value) {
-      this.$refs.isotope.filter('filterByClassification2')
       this.refresh()
+      setTimeout(() => {
+        this.$refs.isotope.filter('filterByClassification')
+      }, 1)
     }
   }
 
@@ -119,71 +136,36 @@ export default {
 
 <style scoped lang="scss">
 
-
-
-/* clear fix */
-.grid:after {
+.customGrid:after {
   content: '';
   display: block;
   clear: both;
 }
-
-/* ---- .element-item ---- */
-
-.gutter-sizer { width: 4%; }
-
 .grid-item {
-  height: 400px;
-  float: left;
-  border: none !important;
-}
-
-.grid-item--width2 { width: 40%; }
-.grid-item--height2 { height: 200px; }
-
-
-  .customGrid .subtitle.is-6{
-    font-size: 0.7rem !important;
-  }
-  
-  .customGrid .item {
-  border: 1px solid #333;
-  padding: 10px;
-  min-width: 200px;
-  box-sizing: border-box;
-  font-family: monospace;
-  color: #333;
-}
-
-.isoDefault {
-  min-height: 210px;
-}
-
-
-
-
-img {
   width: 100%;
-  object-fit:cover;
+  height: 591px;
+  margin-bottom: 40px;
+  border: 6px solid white;
 }
-.grid-item {
+.order_1, .order_3, .order_5, .order_0 {
+  width: 30%;
+  height: 261px;
+}
+.order_2, .order_4 {
+  width: 64.5%;
+}
+.order_42 {
   width: 50%;
 }
-/*.order_1 {
-  background: rgba(255,255,0,0.3) !important;
-  width: 25%;
-}
-.order_2 {
-  background: rgba(0,0,255,0.3) !important;
-  width: 25%;
-}
-.order_3 {
-  background: rgba(255,0,0,0.3) !important;
-}*/
-.grid {
-  background: #DDD;
-}
-
-
+.item {
+    &__img {
+      height: 0%;
+      width: 100%;
+      background: black;
+      background-size: cover;
+      background-repeat: none;
+      background-position: center center;
+    }
+  }
 
 </style>

@@ -35,7 +35,7 @@ export default {
     }
   },
 
-  props: [ "showToolbar" ],
+  props: [ ],
 
   mounted() {
     this.getReferences()
