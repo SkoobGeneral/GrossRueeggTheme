@@ -176,7 +176,7 @@ html {
       display: inline-block;
       width: auto;
       height: 52px;
-      transition: color 0.2s ease-in-out;
+      transition: color 0.3s ease-in-out;
       color: $white;
 
       span {
@@ -191,7 +191,7 @@ html {
 
       &:hover {
         background-color: transparent;
-        color: rgba($white, 0.8);
+        color: #ee6c40;
       }
     }
 
@@ -211,6 +211,13 @@ html {
     position: absolute;
     display: inline-block;
     background: rgba($color-bg-dark, 0.7);
+    & svg {
+      transition: fill 0.3s ease-in-out;
+    }
+    &:hover svg {
+      fill: #ee6c40;
+      transition: fill 0.3s ease-in-out;
+    }
   }
   .burger-menu-word {
     display: inline-block;
