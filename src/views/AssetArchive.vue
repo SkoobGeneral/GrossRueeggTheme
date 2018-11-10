@@ -50,7 +50,6 @@ export default {
       .then(response => {
         setTimeout(() => {
           this.posts = response.data;
-          this.$emit('pageTitle', {title: 'Immobilien Archive'})
         }, 200)
       })
       .catch(e => {

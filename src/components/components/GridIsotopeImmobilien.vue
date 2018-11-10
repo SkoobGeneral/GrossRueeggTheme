@@ -143,7 +143,6 @@ export default {
 }
 .grid-item {
   width: 100%;
-  height: 591px;
   margin-bottom: 40px;
   border: 6px solid white;
 }
@@ -153,6 +152,9 @@ export default {
 }
 .order_2, .order_4 {
   width: 58.6%;
+}
+.order_14 {
+  margin-left: 25% !important;
 }
 .order_42 {
   width: 50%;

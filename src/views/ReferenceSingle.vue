@@ -30,17 +30,22 @@
               </div>
             </div>
           </div>
+          <GridIsotopeMasonry
+            :posts="post.acf.gallery"
+          ></GridIsotopeMasonry>
         </template>
     </b-container>
 </template>
 
 <script>
 import Hero from '../components/components/Hero.vue';
+import GridIsotopeMasonry from '../components/components/GridIsotopeMasonry.vue';
 import Icons from '../components/components/Icons.vue';
 
 export default {
   components: {
     Hero,
+    GridIsotopeMasonry,
     Icons
   },
   data() {

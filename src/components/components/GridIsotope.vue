@@ -142,8 +142,7 @@ export default {
   clear: both;
 }
 .grid-item {
-  width: 100%;
-  height: 591px;
+  width: 50%;
   margin-bottom: 40px;
   border: 6px solid white;
 }
@@ -156,6 +155,9 @@ export default {
 }
 .order_42 {
   width: 50%;
+}
+.order_14 {
+  margin-left: 25% !important;
 }
 .item {
     &__img {

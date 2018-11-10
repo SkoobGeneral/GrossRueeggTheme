@@ -5,7 +5,8 @@
     >
       <ul style="margin: auto;">
         <li class="is-paddingless"
-            v-for="taxonomy in taxonomies"
+            :style="{transform: `translate(-${index}px)`}"
+            v-for="(taxonomy, index) in taxonomies"
             v-if="taxonomy.count || taxonomy.id === 0"
           >
           <a href="#" 
@@ -13,6 +14,7 @@
             :class="{'active': currentTaxonomy === taxonomy.id}"
             v-html="taxonomy.name"
           ></a>
+          {{taxonomy.h}}
         </li>
       </ul>
     </div>
@@ -40,7 +42,10 @@ export default {
     getTaxonomies: function() {
       axios.get(window.SETTINGS.API_BASE_PATH + this.taxonomyName)
       .then(response => {
-        this.taxonomies = this.taxonomies.concat(response.data);
+        var tax = this.taxonomies.concat(response.data);
+        this.taxonomies = tax.filter(item => {
+          return item.count || item.id === 0
+        })
       })
       .catch(e => {
         console.log(e);
@@ -74,10 +79,8 @@ export default {
     justify-content: center;
   }
   li {
+    border-left: 1px solid #f25f2e;
     border-right: 1px solid #f25f2e;
-    &:last-child {
-      border-right: none;
-    }
   }
   a {
     color: #AAA !important;

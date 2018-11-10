@@ -44,7 +44,6 @@ export default {
       .then(response => {
         setTimeout(() => {
           this.posts = response.data;
-          this.$emit('pageTitle', {title: 'Referenzen Archive'})
         }, 200)
       })
       .catch(e => {

@@ -29,7 +29,6 @@ mix.setPublicPath('dist')
       'axios',
       'babel-polyfill',
       'lodash',
-      'tether',
       'vue',
       'bootstrap-vue',
       'vuex',

@@ -39,7 +39,7 @@
               <p class="is-marginless" v-html="article.content.rendered" v-if="article.content"></p>
             </router-link>
           </li>
-          <li class="no-results animated fadeIn delay-1s" v-if="searchQuery && (articles.length === 0) && (apiResponse)"><h4>No results found.</h4></li>
+          <li class="no-results animated fadeIn delay-1s" v-if="searchQuery && (articles.length === 0) && (apiResponse)"><h4>Nicht gefunden.</h4></li>
         </ul>
       </transition>
     </div>

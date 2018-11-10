@@ -123,6 +123,9 @@ export default {
     text-decoration: none;
     color: rgb(54,54,54);
   }
+  html {
+    background: #f0f0f0 !important;
+  }
   body {
     font-family: 'Source Sans Pro', sans-serif;
     min-height: 100vh;

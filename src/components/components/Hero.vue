@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <section class="hero is-medium is-bold mb-5">
+    <section class="herox is-medium is-bold mb-5">
       <div
         v-if="controls == true"
         class="slides__control"
@@ -22,18 +22,15 @@
           :style="{backgroundImage: `url(${slide.picture.url}`}"
           v-if="current % slides.length === index"
         >
-          <div class="hero-body"></div>
-          <div class="hero-footer" style="margin: 60px;">
-            <div class="columns">
+          <div class="hero-body">
+            <div class="columnsx container">
               <div
                 v-if="slide.title || slide.content"
-                class="column is-two-fifths animated fadeIn mb-2"
-                style="background: rgba(255,255,255,0.9);"
+                class="columnx is-two-fifths animated fadeIn mb-2"
+                style="background: rgba(255,255,255,0.9); max-width: 230px;"
               >
                 <h1 class="animated fadeIn" style="font-weight: 300;" v-html="slide.title"></h1>
                 <h6 class="animated fadeIn" style="font-weight: 600; color: #ee6c40;" v-html="slide.content"></h6>
-              </div>
-              <div class="column animated fadeIn slower" style="position: relative;">
               </div>
             </div>
           </div>
@@ -47,6 +44,7 @@
           style="cursor: pointer;"
           v-bind:class="{'dot':true, 'active':(current % slides.length === index)}"
           @click="selectSlide(index)"
+          v-if="slides.length > 1"
           >
         </div>
       </div>
@@ -109,6 +107,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../styles/_variables.scss";
   .slides__control button {
     position: absolute;
     bottom: 50%;
@@ -142,6 +141,27 @@ export default {
       background: black;
       background-size: cover;
       background-repeat: none;
+      background-position: center center;
+      height: 40vw;
+      max-height: 600px;
+      @include breakpoint($phone) {
+        height: 70vw;
+        & h1 {
+          font-size: 16px !important;
+        }
+        & p {
+          font-size: 10px !important;
+        }
+      }
+      @include breakpoint($phone-small) {
+        height: 70vw;
+        & h1 {
+          font-size: 16px !important;
+        }
+        & p {
+          font-size: 10px !important;
+        }
+      }
     }
   }
   .dots__container {
@@ -152,6 +172,10 @@ export default {
     margin-right: 60px;
     margin-bottom: 60px;
     z-index: 1;
+    @include breakpoint($phone) {
+      margin-right: 0 !important;
+      margin-bottom: 20px !important;
+    }
   }
   .dot {
     height: 12px;
