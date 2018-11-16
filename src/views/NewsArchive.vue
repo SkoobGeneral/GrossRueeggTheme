@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row pt-4 mt-3">
-    <h2 class="title is-1 has-text-centered has-text-weight-light">News</h2>
+    <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">News</h2>
     <GridNews
       :posts="posts"
       v-if="posts"
@@ -34,13 +34,8 @@ export default {
     }
   },
 
-  props: [ "showToolbar" ],
-
   mounted() {
     this.getReferences()
-    if (!this.showToolbar) {
-      this.showToolbar = true;
-    }
   },
 
   methods: {

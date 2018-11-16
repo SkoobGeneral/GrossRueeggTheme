@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row pt-1">
+  <div class="bv-example-row pt-1">
     <GridFilterBar
       class="grid-filter-bar__wrapper"
       taxonomy-name="classification"
@@ -11,7 +11,7 @@
       :selected="selectedTaxonomy"
       :posts="posts"
     ></GridIsotope>
-  </b-container>
+  </div>
 </template>
 
 <script>

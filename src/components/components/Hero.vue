@@ -22,12 +22,12 @@
           :style="{backgroundImage: `url(${slide.picture.url}`}"
           v-if="current % slides.length === index"
         >
-          <div class="hero-body">
-            <div class="columnsx container">
+          <div class="hero-body" style="position: absolute; bottom: 0;">
+            <div class="container">
               <div
                 v-if="slide.title || slide.content"
-                class="columnx is-two-fifths animated fadeIn mb-2"
-                style="background: rgba(255,255,255,0.9); max-width: 230px;"
+                class="contenedor animated fadeIn mb-2"
+                style="background: rgba(255,255,255,0.9); padding: 15px;"
               >
                 <h1 class="animated fadeIn" style="font-weight: 300;" v-html="slide.title"></h1>
                 <h6 class="animated fadeIn" style="font-weight: 600; color: #ee6c40;" v-html="slide.content"></h6>
@@ -135,6 +135,12 @@ export default {
   .list-item {
     display: inline-block;
   }
+  .contenedor {
+    @include breakpoint($phone-small) {
+      padding: 10px !important;
+      max-width: 160px;
+    }
+  }
   .slide {
     &__item {
       width: 100%;
@@ -144,13 +150,19 @@ export default {
       background-position: center center;
       height: 40vw;
       max-height: 600px;
+      & h1 {
+        font-size: 20px;
+      }
+      & h6 {
+        font-size: 16px;
+      }
       @include breakpoint($phone) {
         height: 70vw;
         & h1 {
-          font-size: 16px !important;
+          font-size: 20px !important;
         }
-        & p {
-          font-size: 10px !important;
+        & h6 {
+          font-size: 16px !important;
         }
       }
       @include breakpoint($phone-small) {
@@ -158,8 +170,26 @@ export default {
         & h1 {
           font-size: 16px !important;
         }
-        & p {
+        & h6 {
           font-size: 10px !important;
+        }
+      }
+      @include breakpoint($sm) {
+        height: 70vw;
+        & h1 {
+          font-size: 26px !important;
+        }
+        & h6 {
+          font-size: 20px !important;
+        }
+      }
+      @include breakpoint($screen1400) {
+        height: 70vw;
+        & h1 {
+          font-size: 30px !important;
+        }
+        & h6 {
+          font-size: 24px !important;
         }
       }
     }
@@ -188,14 +218,6 @@ export default {
     }
     &.active {
       background: #ee6c40;
-    }
-  }
-  @media only screen and (max-width: 425px) {
-    h1 {
-      font-size: 25px;
-    }
-    h6 {
-      font-size: 14px;
     }
   }
 

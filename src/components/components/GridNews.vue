@@ -2,10 +2,10 @@
   <b-container class="bv-example-row pt-1">
     <!--<button class="button is-danger" @click="removeItemInChild()">Remove</button>-->
     <GridFilterBar
+      class="grid-filter-bar__wrapper"
       taxonomy-name="newstype"
       :selected="0"
       v-on:select:taxonomy="selectTaxonomy($event)"
-      v-if="showToolbar"
     ></GridFilterBar>
     <GridIsotopeNews
       ref="filter"
@@ -24,7 +24,7 @@ export default {
     GridFilterBar,
     GridIsotopeNews,
   },
-  props: [ "limit", "posts", "theme", "showToolbar" ],
+  props: [ "limit", "posts", "theme" ],
   data() {
     return {
       selectedTaxonomy: 0,

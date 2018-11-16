@@ -1,11 +1,13 @@
 <template>
-  <b-container class="bv-example-row pt-4 mt-3">
-    <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Referenzen</h2>
-    <Grid
-      :posts="posts"
-      v-if="posts"
-    ></Grid>
-  </b-container>
+  <div class="container">
+    <div class="bv-example-row pt-4 mt-3">
+      <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Referenzen</h2>
+      <Grid
+        :posts="posts"
+        v-if="posts"
+      ></Grid>
+    </div>
+  </div>
 </template>
 
 <script>

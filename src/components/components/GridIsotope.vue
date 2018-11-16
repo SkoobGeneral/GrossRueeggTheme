@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerx">
     <!--<button class="button is-success">Do nothing</button>
     <button class="button is-warning" @click="addItem()">Add item</button>
     <button class="button is-danger" @click="removeItem()">Remove</button>-->
@@ -19,9 +19,13 @@
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
-          <div class="item__img image is-square mb-2" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
-          <!--<p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
-          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>-->
+          <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
+          <div class="item__infox">
+            <!--
+            <p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length"></p>
+            <p class="subtitle is-5" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>
+            -->
+          </div>
         </router-link>
       </div>
     </Isotope>
@@ -135,39 +139,75 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../styles/_variables.scss";
+
+.item {
+  &__imgx {
+    display: block;
+    height: calc(100% - 80px);
+    width: 100%;
+    background: black;
+    background-size: cover;
+    background-repeat: none;
+    background-position: center center;
+  }
+  &__infox {
+    display: block;
+    height: 80px;
+    width: 100%;
+    background: #f0f0f0;
+  }
+}
 
 .customGrid:after {
   content: '';
   display: block;
   clear: both;
 }
+
 .grid-item {
-  width: 50%;
-  margin-bottom: 40px;
-  border: 6px solid white;
-}
-.order_1, .order_3, .order_5, .order_0 {
-  width: 30%;
-  height: 261px;
-}
-.order_2, .order_4 {
-  width: 58.6%;
-}
-.order_42 {
-  width: 50%;
-}
-.order_14 {
-  margin-left: 25% !important;
-}
-.item {
-    &__img {
-      height: 0%;
-      width: 100%;
-      background: black;
-      background-size: cover;
-      background-repeat: none;
-      background-position: center center;
+  width: 100%;
+  height: 100%;
+  height: 300px;
+  margin-bottom: 10px;
+
+  @include breakpoint($sm) {
+    width: calc(50% - 5px);
+    border: 10px solid white;
+    margin-bottom: 10px;
+    height: 200px;
+  }
+  @include breakpoint($md) {
+    height: 300px;
+  }
+  &.order_1,
+  &.order_3,
+  &.order_5,
+  &.order_0 {
+    @include breakpoint($sm) {
+      width: calc(33.333% - 5px);
+      height: 200px;
+    }
+    @include breakpoint($md) {
+      height: 300px;      
+    }
+  }
+  &.order_2,
+  &.order_4 {
+    @include breakpoint($sm) {
+      width: calc(66.6666% - 5px);
+      height: 410px;
+    }
+    @include breakpoint($md) {
+      height: 610px;
     }
   }
 
+  &.order_14 {
+    @include breakpoint($md) {
+      height: 400px;
+      margin-left: 25% !important;
+    }
+  }
+}
 </style>
