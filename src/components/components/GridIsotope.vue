@@ -151,12 +151,6 @@ export default {
     background-repeat: none;
     background-position: center center;
   }
-  &__infox {
-    display: block;
-    height: 80px;
-    width: 100%;
-    background: #f0f0f0;
-  }
 }
 
 .customGrid:after {
@@ -175,7 +169,7 @@ export default {
     width: calc(50% - 5px);
     border: 10px solid white;
     margin-bottom: 10px;
-    height: 200px;
+    /*height: 200px;*/
   }
   @include breakpoint($md) {
     height: 300px;

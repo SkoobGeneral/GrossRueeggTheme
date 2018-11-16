@@ -30,9 +30,9 @@
               </div>
             </div>
           </div>
-          <!--<GridIsotopeMasonry
+          <GridIsotopeMasonry
             :posts="post.acf.gallery"
-          ></GridIsotopeMasonry>-->
+          ></GridIsotopeMasonry>
         </template>
     </b-container>
 </template>

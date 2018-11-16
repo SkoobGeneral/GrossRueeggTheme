@@ -11,9 +11,10 @@
       <div
         v-for="(picture, index) in posts"
         :key="index"
+        :class="`order_${picture.class}`"
         class="grid-item"
       > 
-          <div class="xitem__img image is-square mb-2" :style="{backgroundImage: `url(${picture.picture.url}`}" v-if="picture.picture.url && picture.picture.url.length"></div>
+          <div class="item__imgx" :style="{backgroundImage: `url(${picture.picture.url}`}" v-if="picture.picture.url && picture.picture.url.length"></div>
       </div>
     </Isotope>
   </div>
@@ -41,17 +42,46 @@ export default {
       var that = this
       return {
         itemSelector: '.grid-item',
+        percentPosition: true,
         masonry: {
-          columnWidth: 10
+          columnWidth: 1,
+          gutter: 0
+        },
+        getSortData: {
+          id: "id"
+        },
+        getFilterData: {
+          filterByClassification (item) {
+            if (!that.selected) {
+              return true
+            }
+            return item.classification.includes(that.selected)
+          }
         }
       }
-    },
+    }
   },
   methods: {
+    refresh () {
+      var counter = 1
+      this.posts.forEach((post, index, arr) => {
+        Vue.set(this.posts[index], 'order', counter)
+        console.log(counter)
+        counter++
+
+        // Calculate the class based on the number of visible items
+        var classx = 14
+        classx = (counter-1) % 4
+        Vue.set(this.posts[index], 'class', classx)
+      })
+
+      this.totalVisibleItems = counter - 1
+    }
   },
 
 
   mounted () {
+    this.refresh()
   },
 
   watch: {
@@ -61,39 +91,56 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../styles/_variables.scss";
+
+.item {
+  &__imgx {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: black;
+    background-size: cover;
+    background-repeat: none;
+    background-position: center center;
+  }
+}
 
 .customGrid:after {
   content: '';
   display: block;
   clear: both;
 }
+
 .grid-item {
-  width: 50%;
-  margin-bottom: 40px;
-  border: 6px solid white;
-}
-.order_1, .order_3, .order_5, .order_0 {
-  width: 30%;
-  height: 261px;
-}
-.order_2, .order_4 {
-  width: 58.6%;
-}
-.order_42 {
-  width: 50%;
-}
-.order_14 {
-  margin-left: 25% !important;
-}
-.item {
-    &__img {
-      height: 0%;
-      width: 100%;
-      background: black;
-      background-size: cover;
-      background-repeat: none;
-      background-position: center center;
+  width: 100%;
+  height: 100%;
+  height: 300px;
+  border: 10px solid white;
+  &.order_1 {
+    @include breakpoint($sm) {
+      width: calc(33.333% - 5px);
+    }
+    @include breakpoint($lg) {
+      height: 400px;
     }
   }
-
+  &.order_2 {
+    @include breakpoint($sm) {
+      width: calc(66.666% - 5px);
+    }
+    @include breakpoint($lg) {
+      height: 400px;
+    }
+  }
+  &.order_3,
+  &.order_0 {
+    @include breakpoint($sm) {
+      height: 240px;
+      width: calc(50% - 5px);
+    }
+    @include breakpoint($lg) {
+      height: 400px;
+    }
+  }
+}
 </style>
