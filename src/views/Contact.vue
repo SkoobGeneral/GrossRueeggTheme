@@ -1,12 +1,9 @@
 <template>
   <div class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
-    <router-link
-        v-if="$routerHistory.hasPrevious()"
-        :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: block;">
-          Kontakt
-      </router-link>
+    <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h2>
+    <div id="mapid"></div>
     <template>
-      <section class="hero is-primary is-medium">
+      <!--<section class="hero is-primary is-medium">
         <div class="hero-body">
           <div>
             <h1 class="title">
@@ -17,7 +14,7 @@
             </h2>
           </div>
         </div>
-      </section>
+      </section>-->
       <div class="container mt-5 mb-3">
         <div class="columns is-multiline">
           <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
@@ -47,6 +44,7 @@
 <script>
 
 import TeamSingle from '../components/components/TeamSingle.vue';
+import Leaflet from 'leaflet'
 
 export default {
   components: {
@@ -69,6 +67,7 @@ export default {
 
   mounted () {
     this.getPost()
+    this.getMap()
   },
 
   methods: {
@@ -83,10 +82,25 @@ export default {
       .catch(e => {
         console.log(e);
       })
+    },
+    getMap () {
+      var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoiY2FtaWxvZGVsdmFzdG8iLCJhIjoiY2pva2tneWl5MDBzdzNxb2Vscnp3OHk0eCJ9.gMrwCZe6xG0LGJ15ZqnScg'
+        }).addTo(mymap);
+      var polygon = L.polygon([
+          [51.509, -0.08],
+          [51.503, -0.06],
+          [51.51, -0.047]
+      ]).addTo(mymap);
     }
   }
 }
 </script>
 
 <style lang="scss">
+#mapid { max-height: 180px; }
 </style>

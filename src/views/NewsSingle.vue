@@ -38,22 +38,22 @@
       <section>
         <h2>Eintrag Teilen</h2>
         <div class="social-icons">
-          <div class="columns container">
-            <div class="column icon-wrapper" @click="shareGooglePlus()">
+          <div class="container">
+            <!--<div class="column icon-wrapper" @click="shareGooglePlus()">
               <Icons iconwidth="64px" iconheight="64px" icon="googleplus" class="share-icon-gray" />
-            </div>
-            <div class="column icon-wrapper" @click="shareTweet()">
+            </div>-->
+            <div class="icon-wrapper" @click="shareTweet()">
               <Icons iconwidth="64px" iconheight="64px" icon="twitter" class="share-icon-gray" />
             </div>
-            <div class="column icon-wrapper" @click="shareInstagram()">
+            <!--<div class="column icon-wrapper" @click="shareInstagram()">
               <Icons iconwidth="64px" iconheight="64px" icon="instagram" class="share-icon-gray" />
-            </div>
-            <div class="column icon-wrapper" @click="shareFB()">
+            </div>-->
+            <div class="icon-wrapper" @click="shareFB()">
               <Icons iconwidth="64px" iconheight="64px" icon="facebook" class="share-icon-gray" />
             </div>
-            <div class="column icon-wrapper" @click="shareEmail()">
+            <!--<div class="column icon-wrapper" @click="shareEmail()">
               <Icons iconwidth="64px" iconheight="64px" icon="email" class="share-icon-gray" />
-            </div>
+            </div>-->
           </div>
         </div>
       </section>
