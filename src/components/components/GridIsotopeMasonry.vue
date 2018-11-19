@@ -66,7 +66,6 @@ export default {
       var counter = 1
       this.posts.forEach((post, index, arr) => {
         Vue.set(this.posts[index], 'order', counter)
-        console.log(counter)
         counter++
 
         // Calculate the class based on the number of visible items

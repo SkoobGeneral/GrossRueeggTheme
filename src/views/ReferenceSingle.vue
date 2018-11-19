@@ -20,15 +20,15 @@
           style="margin: auto; padding: 0; max-width: 100%;"
         ></Hero>
           <div class="columns container" v-if="post.acf.two_columns && post.acf.two_columns.length">
-            <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
+            <div class="column is-8 animated fadeIn delay-1s slower has-text-left">
               <p class="title is-3" style="color: #34363c; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length"></p>
               <p class="subtitle is-4" v-html="post.acf.place" v-if="post.acf.place && post.acf.place.length"></p>
               <p v-html="post.acf.two_columns[0].column1" v-if="post.acf.two_columns[0].column1 && post.acf.two_columns[0].column1.length"></p>
             </div>
-              <div class="column is-4 is-offset-4 animated fadeIn delay-1s slower has-text-left">
-                <p v-html="post.acf.two_columns[0].column2" v-if="post.acf.two_columns[0].column2 && post.acf.two_columns[0].column2.length"></p>
-              </div>
+            <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
+              <p v-html="post.acf.two_columns[0].column2" v-if="post.acf.two_columns[0].column2 && post.acf.two_columns[0].column2.length"></p>
             </div>
+          </div>
           </div>
           <GridIsotopeMasonry
             :posts="post.acf.gallery"

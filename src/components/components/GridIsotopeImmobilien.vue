@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerx">
     <!--<button class="button is-success">Do nothing</button>
     <button class="button is-warning" @click="addItem()">Add item</button>
     <button class="button is-danger" @click="removeItem()">Remove</button>-->
@@ -19,9 +19,12 @@
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
-          <div class="item__img image is-square mb-2" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
-          <!--<p class="title is-6 mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e; font-family: 'Source Sans Pro', sans-serif; font-size:16px; font-weight: bold; overflow-x: hidden;"></p>
-          <p class="subtitle is-5" style="font-family: 'Source Sans Pro', sans-serif; font-size:14px; font-weight: 600; overflow-x: hidden;" v-if="post.acf.place && post.acf.place.length"><nobr v-html="post.acf.place"></nobr></p>-->
+          <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
+          <div class="item__infox">
+            <p class="title is-6 is-marginless mt-2" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e;"><nobr v-html="post.acf.title"></nobr></p>
+            <p class="subtitle is-5 is-marginless" v-if="post.acf.place && post.acf.place.length" v-html="post.acf.place">
+            </p>
+          </div>
         </router-link>
       </div>
     </Isotope>
@@ -102,7 +105,7 @@ export default {
           // Calculate the class based on the number of visible items
           var classx = 14
           if (visible.length >= 3) {
-            classx = (counter-1) % 6
+            classx = (counter-1) % 2
           } else if (visible.length === 2) {
             classx = 42
           }
@@ -135,39 +138,57 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../styles/_variables.scss";
+
+.item {
+  &__imgx {
+    display: block;
+    height: calc(100% - 80px);
+    width: 100%;
+    background: black;
+    background-size: cover;
+    background-repeat: none;
+    background-position: center center;
+  }
+  &__infox {
+    height: 80px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+}
 
 .customGrid:after {
   content: '';
   display: block;
   clear: both;
 }
+
 .grid-item {
   width: 100%;
-  margin-bottom: 40px;
-  border: 6px solid white;
-}
-.order_1, .order_3, .order_5, .order_0 {
-  width: 30%;
-  height: 261px;
-}
-.order_2, .order_4 {
-  width: 58.6%;
-}
-.order_14 {
-  margin-left: 25% !important;
-}
-.order_42 {
-  width: 50%;
-}
-.item {
-    &__img {
-      height: 0%;
-      width: 100%;
-      background: black;
-      background-size: cover;
-      background-repeat: none;
-      background-position: center center;
+  height: 100%;
+  height: 300px;
+  margin-bottom: 10px;
+
+  @include breakpoint($sm) {
+    width: calc(50% - 5px);
+    border: 10px solid white;
+    margin-bottom: 10px;
+    /*height: 200px;*/
+  }
+  @include breakpoint($md) {
+    height: 300px;
+  }
+  &.order_1,
+  &.order_3,
+  &.order_5,
+  &.order_0 {
+    @include breakpoint($sm) {
+      width: calc(33.333% - 5px);
+      height: 200px;
+    }
+    @include breakpoint($md) {
+      height: 300px;      
     }
   }
-
+}
 </style>
