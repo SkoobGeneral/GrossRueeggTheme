@@ -15,7 +15,7 @@ import GridImmobilien from '../components/components/GridImmobilien.vue';
 
 export default {
   components: {
-    GridImmobilien,
+    GridImmobilien
   },
 
   data() {

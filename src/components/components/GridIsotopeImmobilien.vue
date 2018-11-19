@@ -190,5 +190,11 @@ export default {
       height: 300px;      
     }
   }
+  &.order_14 {
+    @include breakpoint($md) {
+      height: 400px;
+      margin-left: 25% !important;
+    }
+  }
 }
 </style>

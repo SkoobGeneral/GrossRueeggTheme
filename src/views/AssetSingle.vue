@@ -2,7 +2,7 @@
     <b-container class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
       <router-link
           v-if="$routerHistory.hasPrevious()"
-          :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;">
+          :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;" refresh>
           <Icons
             iconwidth="28px"
             iconheight="28px"
@@ -24,30 +24,33 @@
             <p class="subtitle is-4" v-html="post.acf.place" v-if="post.acf.place && post.acf.place.length"></p>
           </div>
         </div>
-          <div class="columns content" v-if="post.acf.three_columns && post.acf.three_columns.length">
+        <div class="columns content" v-if="post.acf.three_columns && post.acf.three_columns.length">
+          <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
+            <p v-html="post.acf.three_columns[0].column1" v-if="post.acf.three_columns[0].column1 && post.acf.three_columns[0].column1.length"></p>
+          </div>
             <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
-              <p v-html="post.acf.three_columns[0].column1" v-if="post.acf.three_columns[0].column1 && post.acf.three_columns[0].column1.length"></p>
+              <p v-html="post.acf.three_columns[0].column2" v-if="post.acf.three_columns[0].column2 && post.acf.three_columns[0].column2.length"></p>
             </div>
-              <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
-                <p v-html="post.acf.three_columns[0].column2" v-if="post.acf.three_columns[0].column2 && post.acf.three_columns[0].column2.length"></p>
-              </div>
-              <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
-                <p v-html="post.acf.three_columns[0].column3" v-if="post.acf.three_columns[0].column3 && post.acf.three_columns[0].column3.length"></p>
-              </div>
+            <div class="column is-4 animated fadeIn delay-1s slower has-text-left">
+              <p v-html="post.acf.three_columns[0].column3" v-if="post.acf.three_columns[0].column3 && post.acf.three_columns[0].column3.length"></p>
             </div>
           </div>
-        </template>
+        </div>
+        <FlickityCarouselImmobilien></FlickityCarouselImmobilien>
+      </template>
     </b-container>
 </template>
 
 <script>
 import Hero from '../components/components/Hero.vue';
 import Icons from '../components/components/Icons.vue';
+import FlickityCarouselImmobilien from '../components/components/FlickityCarouselImmobilien.vue';
 
 export default {
   components: {
     Hero,
-    Icons
+    Icons,
+    FlickityCarouselImmobilien
   },
   data() {
     return {
@@ -69,7 +72,6 @@ export default {
       .then(response => {
         setTimeout(() => {
           this.post = response.data[0];
-          console.log(this.post)
           document.title = this.post.title.rendered + ' | ' + document.title;
         }, 20)
       })

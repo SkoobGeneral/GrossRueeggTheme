@@ -61,6 +61,7 @@
         <h2>Weitere News</h2>
       </section>
     </template>
+    <FlickityCarouselNews></FlickityCarouselNews>
   </b-container>
 </template>
 
@@ -68,12 +69,14 @@
 import Hero from '../components/components/Hero.vue';
 import Icons from '../components/components/Icons.vue'
 import * as Sharer from '../components/utilities/Sharer.js'
+import FlickityCarouselNews from '../components/components/FlickityCarouselNews.vue';
 
 export default {
   components: {
    Hero,
    Icons,
-   Sharer
+   Sharer,
+   FlickityCarouselNews
   },
   data () {
     return {

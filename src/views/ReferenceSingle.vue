@@ -32,6 +32,7 @@
           </div>
           <GridIsotopeMasonry
             :posts="post.acf.gallery"
+            v-if="post.acf.gallery && post.acf.gallery.length"
           ></GridIsotopeMasonry>
         </template>
     </b-container>
