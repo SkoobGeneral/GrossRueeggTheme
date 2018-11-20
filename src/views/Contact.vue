@@ -1,9 +1,12 @@
 <template>
   <div class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
     <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h2>
-    <div id="mapid" style="display: none;"></div>
+    <div id="mapid"></div>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
     <template>
-      <section class="hero is-primary is-medium">
+      <section class="hero is-primary is-medium" style="display: none;">
         <div class="hero-body">
           <div>
             <h1 class="title">
@@ -44,7 +47,7 @@
 <script>
 
 import TeamSingle from '../components/components/TeamSingle.vue';
-import Leaflet from 'leaflet'
+import Leaflet from 'leaflet';
 
 export default {
   components: {
@@ -84,23 +87,29 @@ export default {
       })
     },
     getMap () {
-      var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+      var mymap = L.map('mapid').setView([4.7187437, -74.0343933], 17);
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiY2FtaWxvZGVsdmFzdG8iLCJhIjoiY2pva2tneWl5MDBzdzNxb2Vscnp3OHk0eCJ9.gMrwCZe6xG0LGJ15ZqnScg'
         }).addTo(mymap);
-      var polygon = L.polygon([
-          [51.509, -0.08],
-          [51.503, -0.06],
-          [51.51, -0.047]
-      ]).addTo(mymap);
+      var circle = L.circle([4.7187437, -74.0343933], {
+        color: 'white',
+        fillColor: '#ffa500',
+        fillOpacity: 0.5,
+        radius: 50
+    }).addTo(mymap);
+      circle.bindPopup("<b>Hello world!</b><br>I am here.");
     }
   }
 }
 </script>
 
 <style lang="scss">
-#mapid { max-height: 180px; }
+#mapid {
+    height: 400px;
+    min-height: 400px;
+    z-index: 1;
+  }
 </style>
