@@ -12,14 +12,14 @@
         :key="index"
         class="carousel-cell"
       > 
-          <a :href="`/${post.type}/${post.slug}`">
+        <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
           <div class="item__infox">
             <p class="title is-6 is-marginless mt-2" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e;"><nobr v-html="post.acf.title"></nobr></p>
             <p class="subtitle is-5 is-marginless" v-if="post.acf.place && post.acf.place.length" v-html="post.acf.place">
             </p>
           </div>
-        </a>
+        </router-link>
       </div>
     </Flickity>
   </div>
@@ -78,7 +78,8 @@ export default {
     previous() {
       this.$refs.flickity.previous();
     }
-  }
+  },
+
 }
 </script>
 

@@ -15,6 +15,7 @@
       :slides="post.acf.hero_carousel"
       :controls="post.acf.controls"
       :autoplay="post.acf.autoplay"
+      :key="_uid + '_hero_' + slug"
       v-if="post && post.acf"
       style="margin: auto; padding: 0; max-width: 100%;"
     ></Hero>
@@ -88,7 +89,9 @@ export default {
   },
 
   computed: {
-
+    slug () {
+      return this.$route.params.newsSlug      
+    }
   },
 
   mounted () {
@@ -137,6 +140,12 @@ export default {
     },
     currentYear () {
       return (new Date()).getFullYear()
+    }
+  },
+
+  watch: {
+    slug: function (newVal, oldVal) {
+      this.getReference()
     }
   }
 }
