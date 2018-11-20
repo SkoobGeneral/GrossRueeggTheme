@@ -11,7 +11,8 @@
         v-for="(post, index) in posts"
         :key="index"
         class="carousel-cell"
-      > 
+        v-if="noDupe(post)"
+      >
         <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
           <div class="item__infox">
@@ -33,9 +34,10 @@ export default {
     Flickity
   },
 
+  props: [ "posts" ],
+
   data () {
     return {
-      posts: null,
       post: {
         type: Object,
         default() {
@@ -54,21 +56,15 @@ export default {
     }
   },
 
-  mounted() {
-    this.getReferences()
+  computed: {
+    slug () {
+      return this.$route.params.newsSlug      
+    }
   },
 
   methods: {
-    getReferences: function() {
-      axios.get(window.SETTINGS.API_BASE_PATH + 'news')
-      .then(response => {
-        setTimeout(() => {
-          this.posts = response.data;
-        }, 200)
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    noDupe (item) {
+      return this.slug != item.slug
     },
 
     next() {

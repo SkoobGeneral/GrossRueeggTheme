@@ -62,7 +62,10 @@
         <h2>Weitere News</h2>
       </section>
     </template>
-    <FlickityCarouselNews></FlickityCarouselNews>
+    <FlickityCarouselNews
+      :key="_uid + '_carousel_' + slug"
+      :posts="posts"
+    ></FlickityCarouselNews>
   </b-container>
 </template>
 
@@ -82,6 +85,7 @@ export default {
   data () {
     return {
       post: false,
+      posts: false,
       shareText: "Check out this website I found!",
       siteName: "GrossRueegg",
       shareWindowTitle: "Sharing"
@@ -95,12 +99,13 @@ export default {
   },
 
   mounted () {
-    this.getReference()
+    this.getThisPost()
+    this.getPostsList()
     require("../Components/plugins/FacebookSDK.js")
   },
 
   methods: {
-    getReference: function() {
+    getThisPost: function() {
       axios.get(window.SETTINGS.API_BASE_PATH + 'news?slug=' + this.$route.params.newsSlug)
       .then(response => {
         setTimeout(() => {
@@ -112,6 +117,18 @@ export default {
         console.log(e);
       })
     },
+    getPostsList () {
+      axios.get(window.SETTINGS.API_BASE_PATH + 'news')
+      .then(response => {
+        setTimeout(() => {
+          this.posts = response.data;
+        }, 200)
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    },
+
     loadScripts () {
       if (typeof window !== "undefined" && window.FB) {
         window.FB.XFBML.parse()
@@ -145,7 +162,7 @@ export default {
 
   watch: {
     slug: function (newVal, oldVal) {
-      this.getReference()
+      this.getThisPost()
     }
   }
 }
