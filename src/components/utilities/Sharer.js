@@ -60,9 +60,7 @@ export function shareByEmail (urlParams, text, via, title) {
 }
 
 export function shareOnFacebook (urlParams, text, via, title) {
-  //var shareUrl = `${window.location.origin}${window.location.pathname}`
-  var shareUrl = `http://gr.welti.be${window.location.pathname}`
-  console.log(shareUrl)
+  var shareUrl = `${window.location.origin}${window.location.pathname}`
   if (urlParams) {
     shareUrl += "?" + urlParams
   }
@@ -73,8 +71,8 @@ export function shareOnFacebook (urlParams, text, via, title) {
   if (window) {
     window.FB.ui({
       method: "share",
-      href: encodeURIComponent(shareUrl),
-      quote: encodeURI(newText),
+      href: shareUrl,
+      quote: newText,
       hashtag: `#${via}`
     }, function (response) {
       return response
