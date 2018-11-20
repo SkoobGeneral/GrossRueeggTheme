@@ -5,7 +5,11 @@
       <Grid
         :posts="posts"
         v-if="posts"
+        :key="_uid + '_grid_' + posts.length"
       ></Grid>
+      <button class="button is-warning"
+        @click="loadMore()"
+      >load more</button>
     </div>
   </div>
 </template>
@@ -21,7 +25,9 @@ export default {
 
   data() {
     return {
-      posts: null,
+      posts: [],
+      current: 1,
+      perPage: 2,
       post: {
         type: Object,
         default() {
@@ -42,15 +48,24 @@ export default {
 
   methods: {
     getReferences: function() {
-      axios.get(window.SETTINGS.API_BASE_PATH + 'referenzen')
+      axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?per_page=${this.perPage}&page=${this.current}`)
       .then(response => {
         setTimeout(() => {
-          this.posts = response.data;
+          if (!this.posts.length) {
+            this.posts = response.data
+          } else {
+            this.posts = this.posts.concat(response.data);
+          }
+          console.log('this.posts', this.posts)
         }, 200)
       })
       .catch(e => {
         console.log(e);
       })
+    },
+    loadMore () {
+      this.current++
+      this.getReferences()
     }
   }
 }
