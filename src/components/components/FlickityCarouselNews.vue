@@ -48,7 +48,8 @@ export default {
         }
       },
       flickityOptions: {
-        wrapAround: true
+        wrapAround: true,
+        pageDots: false
       }
     }
   },
@@ -62,7 +63,6 @@ export default {
       axios.get(window.SETTINGS.API_BASE_PATH + 'news')
       .then(response => {
         setTimeout(() => {
-          console.log(response)
           this.posts = response.data;
         }, 200)
       })
@@ -110,6 +110,9 @@ export default {
   @include breakpoint($md) {
     height: 250px;
   }
+}
+.flickity-prev-next-button {
+  top: 35% !important;
 }
 
 </style>

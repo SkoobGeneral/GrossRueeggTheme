@@ -57,7 +57,7 @@
           </div>
         </div>
       </section>
-      <section>
+      <section class="mb-5">
         <h2>Weitere News</h2>
       </section>
     </template>
@@ -93,6 +93,7 @@ export default {
 
   mounted () {
     this.getReference()
+    require("../Components/plugins/FacebookSDK.js")
   },
 
   methods: {

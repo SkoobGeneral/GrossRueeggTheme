@@ -48,7 +48,8 @@ export default {
         }
       },
       flickityOptions: {
-        wrapAround: true
+        wrapAround: true,
+        pageDots: false
       }
     }
   },
@@ -109,6 +110,9 @@ export default {
   @include breakpoint($md) {
     height: 250px;
   }
+}
+.flickity-prev-next-button {
+  top: 35% !important;
 }
 
 </style>
