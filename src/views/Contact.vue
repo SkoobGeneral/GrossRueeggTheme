@@ -2,9 +2,6 @@
   <div class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
     <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h2>
     <div id="mapid"></div>
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
     <template>
       <section class="hero is-primary is-medium" style="display: none;">
         <div class="hero-body">
@@ -107,6 +104,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("https://unpkg.com/leaflet@1.3.4/dist/leaflet.css");
+
 #mapid {
     height: 400px;
     min-height: 400px;
