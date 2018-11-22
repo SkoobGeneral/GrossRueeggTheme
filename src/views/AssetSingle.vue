@@ -2,7 +2,7 @@
     <b-container class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
       <router-link
           v-if="$routerHistory.hasPrevious()"
-          :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;" refresh>
+          :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;">
           <Icons
             iconwidth="28px"
             iconheight="28px"
@@ -16,6 +16,7 @@
           :slides="post.acf.hero_carousel"
           :controls="post.acf.controls"
           :autoplay="post.acf.autoplay"
+          :key="_uid + '_hero_' + slug"
           v-if="post && post.acf"
           style="margin: auto; padding: 0; max-width: 100%;"
         ></Hero>
@@ -36,7 +37,10 @@
             </div>
           </div>
         </div>
-        <FlickityCarouselImmobilien></FlickityCarouselImmobilien>
+        <FlickityCarouselImmobilien
+        :key="_uid + '_carousel_' + slug"
+        :posts="posts"
+      ></FlickityCarouselImmobilien>
       </template>
     </b-container>
 </template>
@@ -54,20 +58,24 @@ export default {
   },
   data() {
     return {
-      post: false
+      post: false,
+      posts: false,
     }
   },
 
   computed: {
-
+    slug () {
+      return this.$route.params.immobilienSlug      
+    }
   },
 
   mounted () {
-    this.getReference()
+    this.getThisPost()
+    this.getPostsList()
   },
 
   methods: {
-    getReference: function() {
+    getThisPost: function() {
       axios.get(window.SETTINGS.API_BASE_PATH + 'immobilien?slug=' + this.$route.params.immobilienSlug)
       .then(response => {
         setTimeout(() => {
@@ -78,6 +86,23 @@ export default {
       .catch(e => {
         console.log(e);
       })
+    },
+    getPostsList () {
+      axios.get(window.SETTINGS.API_BASE_PATH + 'immobilien')
+      .then(response => {
+        setTimeout(() => {
+          this.posts = response.data;
+        }, 200)
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
+  },
+
+  watch: {
+    slug: function (newVal, oldVal) {
+      this.getThisPost()
     }
   }
 }

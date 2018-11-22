@@ -11,15 +11,16 @@
         v-for="(post, index) in posts"
         :key="index"
         class="carousel-cell"
-      > 
-          <a :href="`/${post.type}/${post.slug}`">
+        v-if="noDupe(post)"
+      >
+        <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
           <div class="item__infox">
             <p class="title is-6 is-marginless mt-2" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e;"><nobr v-html="post.acf.title"></nobr></p>
             <p class="subtitle is-5 is-marginless" v-if="post.acf.place && post.acf.place.length" v-html="post.acf.place">
             </p>
           </div>
-        </a>
+        </router-link>
       </div>
     </Flickity>
   </div>
@@ -33,9 +34,10 @@ export default {
     Flickity
   },
 
+  props: [ "posts" ],
+
   data () {
     return {
-      posts: null,
       post: {
         type: Object,
         default() {
@@ -54,21 +56,15 @@ export default {
     }
   },
 
-  mounted() {
-    this.getReferences()
+  computed: {
+    slug () {
+      return this.$route.params.immobilienSlug      
+    }
   },
 
   methods: {
-    getReferences: function() {
-      axios.get(window.SETTINGS.API_BASE_PATH + 'immobilien')
-      .then(response => {
-        setTimeout(() => {
-          this.posts = response.data;
-        }, 200)
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    noDupe (item) {
+      return this.slug != item.slug
     },
 
     next() {
@@ -78,7 +74,8 @@ export default {
     previous() {
       this.$refs.flickity.previous();
     }
-  }
+  },
+
 }
 </script>
 

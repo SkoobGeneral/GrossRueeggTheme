@@ -56,7 +56,6 @@ export default {
           } else {
             this.posts = this.posts.concat(response.data);
           }
-          console.log('this.posts', this.posts)
         }, 200)
       })
       .catch(e => {

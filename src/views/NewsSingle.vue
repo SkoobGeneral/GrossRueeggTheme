@@ -6,7 +6,8 @@
       <Icons
           iconwidth="28px"
           iconheight="28px"
-          icon="arrow-left" /><div class="ml-3">News</div>
+          icon="arrow-left"
+        /><div class="ml-3">News</div>
       </router-link>
     <template v-if="post">
     <Hero

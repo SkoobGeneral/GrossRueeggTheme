@@ -5,7 +5,11 @@
       :posts="posts"
       :show-toolbar="true"
       v-if="posts"
+      :key="_uid + '_grid_' + posts.length"
     ></GridImmobilien>
+    <button class="button is-warning"
+        @click="loadMore()"
+      >load more</button>
   </b-container>
 </template>
 
@@ -20,7 +24,9 @@ export default {
 
   data() {
     return {
-      posts: null,
+      posts: [],
+      current: 1,
+      perPage: 2,
       post: {
         type: Object,
         default() {
@@ -35,8 +41,6 @@ export default {
     }
   },
 
-  props: [ ],
-
   mounted() {
     this.getReferences()
     if (!this.showToolbar) {
@@ -46,15 +50,23 @@ export default {
 
   methods: {
     getReferences: function() {
-      axios.get(window.SETTINGS.API_BASE_PATH + 'immobilien')
+      axios.get(`${window.SETTINGS.API_BASE_PATH}immobilien?per_page=${this.perPage}&page=${this.current}`)
       .then(response => {
         setTimeout(() => {
-          this.posts = response.data;
+          if (!this.posts.length) {
+            this.posts = response.data
+          } else {
+            this.posts = this.posts.concat(response.data);
+          }
         }, 200)
       })
       .catch(e => {
         console.log(e);
       })
+    },
+    loadMore () {
+      this.current++
+      this.getReferences()
     }
   }
 }
