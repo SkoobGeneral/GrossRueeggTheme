@@ -99,11 +99,8 @@ export default {
   }
 }
 .carousel-cell {
-  width: 38%;
+  width: 28%;
   height: 150px;
-  margin-right: 10px;
-  border-radius: 5px;
-  counter-increment: carousel-cell;
   @include breakpoint($md) {
     height: 250px;
   }
