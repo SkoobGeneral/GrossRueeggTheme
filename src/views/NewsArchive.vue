@@ -1,10 +1,21 @@
 <template>
-  <b-container class="bv-example-row pt-4 mt-3">
+  <b-container class="bv-example-row pt-4 mt-3 mb-5">
     <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">News</h2>
     <GridNews
       :posts="posts"
       v-if="posts"
+      :key="_uid + '_grid_' + posts.length"
     ></GridNews>
+    <div class="has-text-right">
+      <button class="button is-light animated fadeIn delay-2s"
+        @click="loadMore()"
+        v-if="current < lastPage"
+      >Load more!</button>
+      <button class="button is-light animated fadeIn delay-2s"
+        v-if="current >= lastPage"
+        :disabled="true"
+      >No more results.</button>
+    </div>
   </b-container>
 </template>
 
@@ -19,7 +30,10 @@ export default {
 
   data() {
     return {
-      posts: null,
+      posts: [],
+      current: 1,
+      perPage: 4,
+      lastPage : 0,
       post: {
         type: Object,
         default() {
@@ -40,15 +54,24 @@ export default {
 
   methods: {
     getReferences: function() {
-      axios.get(window.SETTINGS.API_BASE_PATH + 'news')
+      axios.get(`${window.SETTINGS.API_BASE_PATH}news?per_page=${this.perPage}&page=${this.current}`)
       .then(response => {
         setTimeout(() => {
-          this.posts = response.data;
+          this.lastPage = response.headers['x-wp-totalpages'];
+          if (!this.posts.length) {
+            this.posts = response.data
+          } else {
+            this.posts = this.posts.concat(response.data);
+          }
         }, 200)
       })
       .catch(e => {
         console.log(e);
       })
+    },
+    loadMore () {
+      this.current++
+      this.getReferences()
     }
   }
 }

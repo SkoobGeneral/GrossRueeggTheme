@@ -1,8 +1,7 @@
 <template>
   <b-container class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
     <router-link
-      v-if="$routerHistory.hasPrevious()"
-      :to="{ path: $routerHistory.previous().path }" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;">
+      to="/news" class="title is-1 has-text-weight-light mb-5 animated fadeIn delay-1s slower" style="display: inline-flex; color: black !important;">
       <Icons
           iconwidth="28px"
           iconheight="28px"

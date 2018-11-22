@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <div class="bv-example-row pt-4 mt-3">
+    <div class="bv-example-row pt-4 mt-3 mb-5">
       <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Referenzen</h2>
       <Grid
         :posts="posts"
         v-if="posts"
         :key="_uid + '_grid_' + posts.length"
       ></Grid>
-      <button class="button is-warning"
+      <div class="has-text-right">
+      <button class="button is-light animated fadeIn delay-2s"
         @click="loadMore()"
-      >load more</button>
+        v-if="current < lastPage"
+      >Load more!</button>
+      <button class="button is-light animated fadeIn delay-2s"
+        v-if="current >= lastPage"
+        :disabled="true"
+      >No more results.</button>
+    </div>
     </div>
   </div>
 </template>
@@ -27,7 +34,8 @@ export default {
     return {
       posts: [],
       current: 1,
-      perPage: 2,
+      perPage: 3,
+      lastPage : 0,
       post: {
         type: Object,
         default() {
@@ -51,6 +59,7 @@ export default {
       axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?per_page=${this.perPage}&page=${this.current}`)
       .then(response => {
         setTimeout(() => {
+          this.lastPage = response.headers['x-wp-totalpages'];
           if (!this.posts.length) {
             this.posts = response.data
           } else {
