@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "../../styles/_variables.scss";
 .item {
   &__imgx {
@@ -99,7 +99,7 @@ export default {
   }
 }
 .carousel-cell {
-  width: 28%;
+  width: 38%;
   height: 150px;
   margin-right: 10px;
   border-radius: 5px;
