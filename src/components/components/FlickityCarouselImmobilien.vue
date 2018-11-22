@@ -101,6 +101,7 @@ export default {
 .carousel-cell {
   width: 28%;
   height: 150px;
+  margin-right: 20px;
   @include breakpoint($md) {
     height: 250px;
   }
