@@ -1,20 +1,8 @@
 <template>
   <div class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
-    <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h2>
-    <div id="mapid"></div>
+    <h1 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h1>
+    <div id="mapid" class="mt-5"></div>
     <template>
-      <section class="hero is-primary is-medium" style="display: none;">
-        <div class="hero-body">
-          <div>
-            <h1 class="title">
-              MAP
-            </h1>
-            <h2 class="subtitle">
-              TOKEN
-            </h2>
-          </div>
-        </div>
-      </section>
       <div class="container mt-5 mb-3">
         <div class="columns is-multiline">
           <div class="column is-4 animated fadeIn delay-1s slower has-text-left">

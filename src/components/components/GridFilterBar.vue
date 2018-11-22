@@ -1,7 +1,7 @@
 <template>
   <b-container class="bv-example-row pt-4 mb-5">
     <div
-      class="container has-text-centered mb-2 animated fadeIn delay-1s"
+      class="container has-text-centered mb-2 animated fadeIn delay-2s"
     >
       <ul style="margin: auto;">
         <li class="is-paddingless"

@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row pt-4 mt-3 mb-5">
-    <h2 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Immobilien</h2>
+    <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Immobilien</h1>
     <GridImmobilien
       :posts="posts"
       :show-toolbar="true"

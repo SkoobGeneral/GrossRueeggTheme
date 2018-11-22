@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row pt-4 mt-3 mb-5">
-    <p class="title is-1 has-text-centered has-text-weight-light">Leistungen</p>
+    <h1 class="title is-1 has-text-centered has-text-weight-light">Leistungen</h1>
     <template>
       <div
         v-for="(post, index) in posts"
