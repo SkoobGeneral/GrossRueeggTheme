@@ -7,7 +7,7 @@
       v-on:select:taxonomy="selectTaxonomy($event)"
     ></GridFilterBar>
     <GridIsotope
-      ref="filter"
+      ref="grid"
       :selected="selectedTaxonomy"
       :posts="posts"
     ></GridIsotope>
@@ -35,6 +35,9 @@ export default {
   methods: {
     selectTaxonomy(event) {
       this.selectedTaxonomy = event.term
+    },
+    refresh () {
+      this.$refs.grid.refresh()
     }
   }
 }

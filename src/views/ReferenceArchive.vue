@@ -3,9 +3,9 @@
     <div class="bv-example-row pt-4 mt-3 mb-5">
       <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Referenzen</h1>
       <Grid
+        ref="grid"
         :posts="posts"
         v-if="posts"
-        :key="_uid + '_grid_' + posts.length"
       ></Grid>
       <div class="has-text-right load_more_wrapper">
       <button class="button is-light animated fadeIn delay-2s"
@@ -65,7 +65,8 @@ export default {
           } else {
             this.posts = this.posts.concat(response.data);
           }
-        }, 200)
+          this.$refs.grid.refresh()
+        }, 1)
       })
       .catch(e => {
         console.log(e);

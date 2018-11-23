@@ -1,19 +1,15 @@
 <template>
   <div class="containerx">
-    <!--<button class="button is-success">Do nothing</button>
-    <button class="button is-warning" @click="addItem()">Add item</button>
-    <button class="button is-danger" @click="removeItem()">Remove</button>-->
     <Isotope
-      :list="items"
+      :list="posts"
       :options="isotopeOptions"
       class="isoDefault customGrid animated fadeIn delay-1s"
       id="root_isotope"
       ref="isotope"
       :class='[posts.classification]'
-      v-if="posts && posts.length"
     >
       <div
-        v-for="(post, index) in items"
+        v-for="(post, index) in posts"
         :key="post.id"
         :class="`order_${post.class}`"
         class="grid-item"
@@ -45,7 +41,6 @@ export default {
 
   data () {
     return {
-      items: this.posts,
       finalSelection: 0,
       totalVisibleItems: 0
     }
@@ -131,6 +126,9 @@ export default {
       setTimeout(() => {
         this.$refs.isotope.filter('filterByClassification')
       }, 1)
+    },
+    posts () {
+      this.refresh()
     }
   }
 
