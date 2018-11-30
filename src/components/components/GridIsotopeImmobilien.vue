@@ -193,7 +193,7 @@ export default {
     }
   }
 }
-.order_0 div, .order_1 div, .order_42 div {
+.order_0 .item__imgx, .order_1 .item__imgx, .order_42 .item__imgx {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+ */
     filter: gray; /* IE6-9 */
     -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
@@ -201,7 +201,7 @@ export default {
     -webkit-backface-visibility: hidden; /* Fix for transition flickering */
 }
 
-.order_0:hover div , .order_1:hover div, .order_42:hover div{
+.order_0:hover .item__imgx , .order_1:hover .item__imgx, .order_42:hover .item__imgx{
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
     -webkit-filter: grayscale(0%);
 }
