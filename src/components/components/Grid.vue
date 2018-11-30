@@ -4,6 +4,7 @@
       class="grid-filter-bar__wrapper"
       taxonomy-name="classification"
       :selected="0"
+      :posts="posts"
       v-on:select:taxonomy="selectTaxonomy($event)"
     ></GridFilterBar>
     <GridIsotope

@@ -2,20 +2,16 @@
   <b-container class="bv-example-row pt-4 mt-3 mb-5">
     <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Immobilien</h1>
     <GridImmobilien
+      ref="grid"
       :posts="posts"
       :show-toolbar="true"
       v-if="posts"
-      :key="_uid + '_grid_' + posts.length"
     ></GridImmobilien>
     <div class="has-text-right">
       <button class="button is-light animated fadeIn delay-2s"
         @click="loadMore()"
         v-if="current < lastPage"
       >Load more!</button>
-      <button class="button is-light animated fadeIn delay-2s"
-        v-if="current >= lastPage"
-        :disabled="true"
-      >No more results.</button>
     </div>
   </b-container>
 </template>
@@ -67,7 +63,8 @@ export default {
           } else {
             this.posts = this.posts.concat(response.data);
           }
-        }, 200)
+          this.$refs.grid.refresh()
+        }, 1)
       })
       .catch(e => {
         console.log(e);

@@ -12,10 +12,6 @@
         @click="loadMore()"
         v-if="current < lastPage"
       >Load more!</button>
-      <button class="button is-light animated fadeIn delay-2s"
-        v-if="current >= lastPage"
-        :disabled="true"
-      >No more results.</button>
     </div>
     </div>
   </div>

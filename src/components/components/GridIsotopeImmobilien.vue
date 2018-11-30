@@ -1,19 +1,15 @@
 <template>
   <div class="containerx">
-    <!--<button class="button is-success">Do nothing</button>
-    <button class="button is-warning" @click="addItem()">Add item</button>
-    <button class="button is-danger" @click="removeItem()">Remove</button>-->
     <Isotope
-      :list="items"
+      :list="posts"
       :options="isotopeOptions"
       class="isoDefault customGrid animated fadeIn delay-1s"
       id="root_isotope"
       ref="isotope"
       :class='[posts.classification2]'
-      v-if="posts && posts.length"
     >
       <div
-        v-for="(post, index) in items"
+        v-for="(post, index) in posts"
         :key="post.id"
         :class="`order_${post.class}`"
         class="grid-item"
@@ -45,7 +41,6 @@ export default {
 
   data () {
     return {
-      items: this.posts,
       finalSelection: 0,
       totalVisibleItems: 0
     }
@@ -128,9 +123,10 @@ export default {
   watch: {
     selected (value) {
       this.refresh()
-      setTimeout(() => {
-        this.$refs.isotope.filter('filterByClassification')
-      }, 1)
+      this.$refs.isotope.filter('filterByClassification')
+    },
+    posts () {
+      this.refresh()
     }
   }
 
@@ -196,5 +192,17 @@ export default {
       margin-left: 25% !important;
     }
   }
+}
+.order_0 div, .order_1 div, .order_42 div {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+ */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
+    -webkit-transition: all 1s ease; /* Fade to color for Chrome and Safari */
+    -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+}
+
+.order_0:hover div , .order_1:hover div, .order_42:hover div{
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+    -webkit-filter: grayscale(0%);
 }
 </style>

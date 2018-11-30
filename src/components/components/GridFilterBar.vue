@@ -7,14 +7,13 @@
         <li class="is-paddingless"
             :style="{transform: `translate(-${index}px)`}"
             v-for="(taxonomy, index) in taxonomies"
-            v-if="taxonomy.count || taxonomy.id === 0"
+            v-if="taxonomy.count && hasPosts(taxonomy.id) || taxonomy.id === 0"
           >
           <a href="#" 
             @click="selectTaxonomy(taxonomy)"
             :class="{'active': currentTaxonomy === taxonomy.id}"
             v-html="taxonomy.name"
           ></a>
-          {{taxonomy.h}}
         </li>
       </ul>
     </div>
@@ -26,7 +25,7 @@
 export default {
   components: {
   },
-  props: [ "taxonomyName", "selected" ],
+  props: [ "taxonomyName", "selected", "posts"],
   data () {
     return {
       taxonomies: [{
@@ -58,6 +57,32 @@ export default {
       this.currentTaxonomy = taxonomy.id
       this.$emit('select:taxonomy', { taxonomy: taxonomy.taxonomy, term: taxonomy.id })
       event.preventDefault()
+    },
+    hasPosts(taxonomyId) {
+      return true
+      // This function would hide/show categories in the bar if the posts array in memory doesn't have any item. Disabled for now.
+      const filtered = this.posts.filter(post => {
+        return post.classification.includes(taxonomyId)
+      })
+      return filtered.length > 0
+    },
+    getReferencesForThisTaxonomy(taxonomyId) {
+      /*
+      axios.get(...&tax_id=taxonomyId)
+        .then(response => {
+          this.$store.commit('ADD_MORE_ENTRIES', {
+            taxonomyId: taxonomyId,
+            posts: response.data
+          })
+        }
+
+        // en es store, use Vue.set eventually
+        if (state.store.entries) {
+          state.store.entries = state.store.entries.concat(posts)
+        } else {
+          state.store.entries = posts
+        }
+      */
     }
   },
 

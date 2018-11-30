@@ -7,7 +7,7 @@
       v-if="showToolbar"
     ></GridFilterBar>
     <GridIsotopeImmobilien
-      ref="filter"
+      ref="grid"
       :selected="selectedTaxonomy"
       :posts="posts"
     ></GridIsotopeImmobilien>
@@ -35,6 +35,9 @@ export default {
   methods: {
     selectTaxonomy(event) {
       this.selectedTaxonomy = event.term
+    },
+    refresh () {
+      this.$refs.grid.refresh()
     }
   }
 }
