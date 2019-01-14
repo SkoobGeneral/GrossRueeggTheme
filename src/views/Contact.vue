@@ -1,7 +1,7 @@
 <template>
   <div class="bv-example-row pt-4 has-text-centered mt-3 mb-5">
     <h1 class="title is-1 has-text-centered has-text-weight-light" style="display: block;">Kontakt</h1>
-    <div id="mapid" class="mt-5"></div>
+    <div id="mapid" class="mt-5 animated fadeIn delay-3s"></div>
     <template>
       <div class="container mt-5 mb-3">
         <div class="columns is-multiline">
@@ -45,7 +45,10 @@ export default {
           contact: []
         }
       },
-      filialen: null
+      filialen: null,
+      mapLatitude: 0,
+      mapLongitude: 0,
+      mapZoom: 0
     }
   },
 
@@ -55,7 +58,9 @@ export default {
 
   mounted () {
     this.getPost()
-    this.getMap()
+    setTimeout(() => {
+      this.getMap()
+    }, 1500)
   },
 
   methods: {
@@ -64,7 +69,10 @@ export default {
       .then(response => {
         setTimeout(() => {
           this.post = response.data[0];
-          this.filialen = this.post.acf.filialen
+          this.filialen = this.post.acf.filialen;
+          this.mapLatitude = parseFloat(this.post.acf.latitude);
+          this.mapLongitude = parseFloat(this.post.acf.longitude);
+          this.mapZoom = parseFloat(this.post.acf.zoom);
         }, 20)
       })
       .catch(e => {
@@ -72,20 +80,21 @@ export default {
       })
     },
     getMap () {
-      var mymap = L.map('mapid').setView([4.7187437, -74.0343933], 17);
+      var mymap = L.map('mapid').setView([this.mapLatitude, this.mapLongitude ], this.mapZoom);
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiY2FtaWxvZGVsdmFzdG8iLCJhIjoiY2pva2tneWl5MDBzdzNxb2Vscnp3OHk0eCJ9.gMrwCZe6xG0LGJ15ZqnScg'
         }).addTo(mymap);
-      var circle = L.circle([4.7187437, -74.0343933], {
+      /*var circle = L.circle([4.7187437, -74.0343933], {
         color: 'white',
         fillColor: '#ffa500',
         fillOpacity: 0.5,
         radius: 50
     }).addTo(mymap);
       circle.bindPopup("<b>Hello world!</b><br>I am here.");
+      */
     }
   }
 }
