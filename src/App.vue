@@ -1,5 +1,5 @@
 <template>
-  <div id="my-app" class="page-wrapper" @click.stop="triggerMenu(true)" v-bind:class="{ 'menu-opened': showMobileMenu }">
+  <div id="my-app" class="page-wrapper"  v-bind:class="{ 'menu-opened': showMobileMenu }">
     <app-header></app-header>
     <Navigation></Navigation>
     <div class="container"></div>
@@ -47,6 +47,7 @@ export default {
         console.log(e);
       }),
       this.$store.commit('setShowMobileMenu', false)
+      this.$store.commit('setMenuIsOpen', false)
   },
 
   created () {
@@ -91,6 +92,7 @@ export default {
       this.$store.commit('setShowMobileMenu', this.menuIsOpen)
       if (param) {
         this.$store.commit('setShowMobileMenu', false)
+        this.$store.commit('setMenuIsOpen', false)
       }
     }
   },

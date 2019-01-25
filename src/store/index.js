@@ -23,7 +23,25 @@ let localStorage = createPersist({
 function initialState () {
   return {
     menu: {},
-    showMobileMenu: {}
+    menuIsOpen: {},
+    showMobileMenu: {},
+    references: {
+      maxTaxPages: {
+        //0: 1,
+        //1: 1 //save...
+      },
+      currentTaxPages: {
+        //0: 1
+        //1: 3
+      },
+      refsByTaxId: [
+        {
+//          id: 132,
+//          title: 'caisdjfiasd'
+        }
+      ]
+
+    }
   }
 }
 
@@ -37,6 +55,16 @@ export default new Vuex.Store({
     },
     setShowMobileMenu (state, showMobileMenu) {
       state.showMobileMenu = showMobileMenu
+    },
+    setMenuIsOpen (state, menuIsOpen) {
+      state.menuIsOpen = menuIsOpen
+    },
+    increaseTaxPage (state, taxId) {
+      state.references.taxPages[taxId]++
+    },
+    saveReferencesByTaxId (state, taxId, refsArray) {
+      //if (refsArray.length)
+      state.references.refsById[taxId].concat(refsArray)
     }
   },
   modules: {

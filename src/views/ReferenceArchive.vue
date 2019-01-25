@@ -6,6 +6,7 @@
         ref="grid"
         :posts="posts"
         v-if="posts"
+        v-on:taxonomy:select="getReferencesByTaxId()"
       ></Grid>
       <div class="has-text-right load_more_wrapper">
       <button class="button is-light animated fadeIn delay-2s"
@@ -47,10 +48,32 @@ export default {
   },
 
   mounted() {
-    this.getReferences()
+    //this.getReferences()
+    this.getReferencesByTaxId(1) //0 is the ID of the 'featured' category
+  },
+
+  computed: {
+    taxPages () {
+      return this.$store.references.currentTaxPages //save this please
+    }
   },
 
   methods: {
+    getReferencesByTaxId(taxId) {
+      if (!this.$store.references.refsByTaxId[taxId]) {
+        // mirar si hay página. si no hay, usar página 1. si sí hay y pag < max pages para esa taxId, entonces page++ y guardar en el store el page actual
+        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=1&page=${taxPages[taxId]}`) //referenzen?classification=${taxId}&per_page=1&page=${taxPages[taxId]}
+          .then(response => {
+            setTimeout(() => {
+              console.log(response.data)
+            }, 1)
+        })
+        //guarde la respuesta en el store
+        //this.posts concat...
+
+      }
+    },
+
     getReferences: function() {
       axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?per_page=${this.perPage}&page=${this.current}`)
       .then(response => {

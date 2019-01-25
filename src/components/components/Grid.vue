@@ -36,6 +36,7 @@ export default {
   methods: {
     selectTaxonomy(event) {
       this.selectedTaxonomy = event.term
+      this.$emit('taxonomy:select', event.term)
     },
     refresh () {
       this.$refs.grid.refresh()
