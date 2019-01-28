@@ -1,5 +1,5 @@
 <template>
-  <div id="my-app" class="page-wrapper"  v-bind:class="{ 'menu-opened': showMobileMenu }">
+  <div id="my-app" class="page-wrapper"  v-bind:class="{ 'menu-opened': showMenu }">
     <app-header></app-header>
     <Navigation></Navigation>
     <div class="container"></div>
@@ -10,12 +10,12 @@
       <router-view
         class="my-router-view"
         style="flex:1"
-        v-bind:class="{ 'menu-active': showMobileMenu }"
+        v-bind:class="{ 'menu-active': showMenu }"
       ></router-view>
     </transition-page>
     <vue-ins-progress-bar></vue-ins-progress-bar>
     <app-footer
-    v-bind:class="{ 'menu-active': showMobileMenu }"
+    v-bind:class="{ 'menu-active': showMenu }"
     ></app-footer>
   </div>
 </template>
@@ -45,9 +45,8 @@ export default {
       })
       .catch(e => {
         console.log(e);
-      }),
-      this.$store.commit('setShowMobileMenu', false)
-      this.$store.commit('setMenuIsOpen', false)
+      })
+      //this.$store.commit('setShowMenu', false)
   },
 
   created () {
@@ -69,8 +68,8 @@ export default {
       loadingProgress: 'loadingProgress'
     }),
 
-    showMobileMenu () {
-      return this.$store.state.showMobileMenu
+    showMenu () {
+      return this.$store.state.showMenu
     },
 
     loaderStyle() {
@@ -84,17 +83,6 @@ export default {
     Navigation,
     TransitionPage,
     Isotope
-  },
-
-  methods: {
-    triggerMenu (param) {
-      this.menuIsOpen = !this.menuIsOpen
-      this.$store.commit('setShowMobileMenu', this.menuIsOpen)
-      if (param) {
-        this.$store.commit('setShowMobileMenu', false)
-        this.$store.commit('setMenuIsOpen', false)
-      }
-    }
   },
 
   watch: {

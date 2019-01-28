@@ -1,12 +1,12 @@
 <template>
-  <div class="nav-container" v-bind:class="{ 'pos-abs': showMobileMenu }">
-    <div class="navbar-menu" v-bind:class="{ 'is-active': showMobileMenu }"
+  <div class="nav-container" v-bind:class="{ 'pos-abs': showMenu }">
+    <div class="navbar-menu" v-bind:class="{ 'is-active': showMenu }"
     >
       <div class="navbar-start">
-        <nav class="navbar is-transparent" v-bind:class="{ 'expanded': showMobileMenu }">
+        <nav class="navbar is-transparent" v-bind:class="{ 'expanded': showMenu }">
           <div class="is-fluid navbar-container">
             <div id="#nav-burger-trigger" class="navbar-burger animated fadeIn delay-1s"
-              v-bind:class="{ 'is-active': showMobileMenu }"
+              v-bind:class="{ 'is-active': showMenu }"
               @click.stop="triggerMenu()"
               style="cursor: pointer;"
             >
@@ -16,17 +16,17 @@
                 <span></span>
               </div>
               <transition name="fade">
-                <div class="burger-menu-word unselectable" v-show="showMobileMenu"></div>
+                <div class="burger-menu-word unselectable" v-show="showMenu"></div>
               </transition>
             </div>
           </div>
         </nav>
         <transition name="fade">
-          <WpMenus v-show="showMobileMenu"/>
+          <WpMenus v-show="showMenu"/>
         </transition>
         <div class="navbar-search">
           <router-link to="/search">
-          <div class="search-wrapper animated fadeIn delay-1s" v-if="!showMobileMenu">
+          <div class="search-wrapper animated fadeIn delay-1s" v-if="!showMenu">
             <transition name="fade">
                 <svg fill="#ffffff" style="display: block; margin: 10px auto auto;" height="32" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -63,25 +63,16 @@ export default {
     WpMenus
   },
   computed: {
-    showMobileMenu () {
-      return this.$store.state.showMobileMenu
+    showMenu () {
+      return this.$store.state.showMenu
     },
     menu () {
       return this.$store.state.menu
     }
   },
-  data () {
-    return {
-      menuIsOpen: false
-    }
-  },
   methods: {
-    triggerMenu (param) {
-      this.menuIsOpen = !this.menuIsOpen
-      this.$store.commit('setShowMobileMenu', this.menuIsOpen)
-      if (param) {
-        this.$store.commit('setShowMobileMenu', param)
-      }
+    triggerMenu () {
+      this.$store.commit('setShowMenu', !this.showMenu)
     }
   }
 }

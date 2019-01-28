@@ -24,7 +24,7 @@ function initialState () {
   return {
     menu: {},
     menuIsOpen: {},
-    showMobileMenu: {},
+    showMenu: {},
     references: {
       maxTaxPages: {
         //0: 1,
@@ -53,8 +53,8 @@ export default new Vuex.Store({
     loadMenu (state, menu) {
       state.menu = menu
     },
-    setShowMobileMenu (state, showMobileMenu) {
-      state.showMobileMenu = showMobileMenu
+    setShowMenu (state, showMenu) {
+      state.showMenu = showMenu
     },
     setMenuIsOpen (state, menuIsOpen) {
       state.menuIsOpen = menuIsOpen

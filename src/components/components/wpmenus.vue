@@ -1,18 +1,18 @@
 <template>
   <div class="wpmenu-wrapper unselectable"
-  v-bind:class="{ 'is-active': showMobileMenu }"
+  v-bind:class="{ 'is-active': showMenu }"
   >
     <div class="menu-breakdown mobile-only animated fadeInLeft">
       <div class="parent-wrapper"
         v-for="(item, index) in menu.items"  
       >
-        <router-link class="parent-item" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
+        <router-link class="parent-item" v-on:click.native="hideMenu()" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
           <span v-html="item.title"></span>
         </router-link>
-        <div class="parent-item" @click.stop="triggerMenu(true)" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
+        <div class="parent-item" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
           <span v-html="item.title"></span>
         </div>
-        <router-link class="child-item" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
+        <router-link class="child-item" v-on:click.native="hideMenu()" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
           <span v-html="item.title"></span>
         </router-link>
       </div>
@@ -21,13 +21,13 @@
       <div class="parent-wrapper desktop-only"
         v-for="(item, index) in menu.items"
       >
-        <router-link class="parent-item" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
+        <router-link class="parent-item" v-on:click.native="hideMenu()" :to="fixPath(item.url)" exact v-if="item.classes[0] !== 'not-link' && item.menu_item_parent == 0">
           <span v-html="item.title"></span>
         </router-link>
-        <div class="parent-item" @click.stop="triggerMenu(true)" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
+        <div class="parent-item" v-else-if="item.classes[0] == 'not-link' && item.menu_item_parent == 0">
           <span v-html="item.title"></span>
         </div>
-        <router-link class="child-item" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
+        <router-link class="child-item" v-on:click.native="hideMenu()" :to="fixPath(item.url)" exact v-else-if="item.classes[0] !== 'not-link' && item.menu_item_parent !== 0">
           <span v-html="item.title"></span>
         </router-link>
       </div>
@@ -43,8 +43,8 @@ export default {
     }
   },
   computed: {
-    showMobileMenu () {
-      return this.$store.state.showMobileMenu
+    showMenu () {
+      return this.$store.state.showMenu
     },
     menu () {
       return this.$store.state.menu
@@ -77,12 +77,8 @@ export default {
       }
       return path
     },
-    triggerMenu (param) {
-      this.menuIsOpen = !this.menuIsOpen
-      this.$store.commit('setShowMobileMenu', this.menuIsOpen)
-      if (param) {
-        this.$store.commit('setShowMobileMenu', param)
-      }
+    hideMenu () {
+      this.$store.commit('setShowMenu', false)
     }
   }
 }

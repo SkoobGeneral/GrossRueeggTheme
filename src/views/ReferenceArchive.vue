@@ -49,7 +49,7 @@ export default {
 
   mounted() {
     //this.getReferences()
-    this.getReferencesByTaxId(1) //0 is the ID of the 'featured' category
+    this.getReferencesByTaxId(0) //0 is the ID of the 'featured' category
   },
 
   computed: {
