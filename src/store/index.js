@@ -11,36 +11,27 @@ import page from './modules/page'
 import categories from './modules/categories'
 
 Vue.use(Vuex)
+import _ from "lodash"
 
 const debug = process.env.NODE_ENV !== 'production'
 
-let localStorage = createPersist({
-    namespace: 'YOUR_APP_NAMESPACE',
-    initialState: {},
-    expires: 1.21e+9 // Two Weeks
-})
 
 function initialState () {
   return {
     menu: {},
     menuIsOpen: {},
-    showMenu: {},
+    showMenu: false,
     references: {
-      maxTaxPages: {
+      allRefs: [],
+      maxTaxPages: { //maximum of pages per reference, taken from the header in the API response
         //0: 1,
         //1: 1 //save...
       },
-      currentTaxPages: {
+      currentTaxPages: { // current page by taxId
         //0: 1
         //1: 3
       },
-      refsByTaxId: [
-        {
-//          id: 132,
-//          title: 'caisdjfiasd'
-        }
-      ]
-
+      refsByTaxId: {} // the actual references by taxId
     }
   }
 }
@@ -62,9 +53,17 @@ export default new Vuex.Store({
     increaseTaxPage (state, taxId) {
       state.references.taxPages[taxId]++
     },
-    saveReferencesByTaxId (state, taxId, refsArray) {
-      //if (refsArray.length)
-      state.references.refsById[taxId].concat(refsArray)
+    saveReferencesByTaxId (state, payload) {
+      if (state.references.refsByTaxId[payload.taxId] && state.references.refsByTaxId[payload.taxId].length) {
+        state.references.refsByTaxId[payload.taxId] = _.uniqBy(_.union(state.references.refsByTaxId[payload.taxId], payload.refsArray), 'id')
+      } else {
+        Vue.set(state.references.refsByTaxId, payload.taxId, payload.refsArray)
+      }
+      if (state.references.allRefs.length > 0) {
+        state.references.allRefs = _.uniqBy(_.union(state.references.allRefs, payload.refsArray), 'id')
+      } else {
+        Vue.set(state.references, 'allRefs', payload.refsArray)
+      }
     }
   },
   modules: {
@@ -75,6 +74,5 @@ export default new Vuex.Store({
     page,
     categories
   },
-  strict: debug,
-  plugins: [localStorage]
+  strict: debug
 })

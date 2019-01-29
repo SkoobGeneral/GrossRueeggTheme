@@ -4,9 +4,10 @@
       <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Referenzen</h1>
       <Grid
         ref="grid"
-        :posts="posts"
+        :posts="clonedPosts"
         v-if="posts"
-        v-on:taxonomy:select="getReferencesByTaxId()"
+        v-on:taxonomy:select="getReferencesByTaxId($event)"
+        :enableMask="enableMask"
       ></Grid>
       <div class="has-text-right load_more_wrapper">
       <button class="button is-light animated fadeIn delay-2s"
@@ -29,10 +30,12 @@ export default {
 
   data() {
     return {
-      posts: [],
+      enableMask: false,
       current: 1,
       perPage: 3,
       lastPage : 0,
+      // borrar post: ?????
+      /*
       post: {
         type: Object,
         default() {
@@ -43,34 +46,45 @@ export default {
             content: { rendered: '' }
           }
         }
-      }      
+      } */      
     }
   },
 
   mounted() {
     //this.getReferences()
-    this.getReferencesByTaxId(0) //0 is the ID of the 'featured' category
+    //this.getReferencesByTaxId(13) //0 is the ID of the 'featured' category
   },
 
   computed: {
     taxPages () {
       return this.$store.references.currentTaxPages //save this please
+    },
+    posts () {
+      return this.$store.state.references.allRefs
+    },
+    clonedPosts () {
+      return JSON.parse(JSON.stringify(this.posts))
     }
   },
 
   methods: {
     getReferencesByTaxId(taxId) {
-      if (!this.$store.references.refsByTaxId[taxId]) {
-        // mirar si hay página. si no hay, usar página 1. si sí hay y pag < max pages para esa taxId, entonces page++ y guardar en el store el page actual
-        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=1&page=${taxPages[taxId]}`) //referenzen?classification=${taxId}&per_page=1&page=${taxPages[taxId]}
+      var taxPages = this.$store.state.references.taxPages
+      if (!this.$store.state.references.refsByTaxId.hasOwnProperty(taxId)) {
+        this.enableMask = true;
+        //var pageToFetch = taxPages[taxId]
+        var pageToFetch = 1
+        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=10&page=${pageToFetch}`)
           .then(response => {
-            setTimeout(() => {
-              console.log(response.data)
-            }, 1)
+            // guardar la página actual y el núimero de paginas para esta taxonomía.
+            //this.$store.commit()
+            this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
+            setTimeout( () => {
+              this.enableMask = false;
+            }, 300)
         })
-        //guarde la respuesta en el store
-        //this.posts concat...
-
+      } else {
+        console.log('do nothing for now, the key exists')
       }
     },
 
@@ -100,4 +114,5 @@ export default {
 </script>
 
 <style lang="scss">
+
 </style>

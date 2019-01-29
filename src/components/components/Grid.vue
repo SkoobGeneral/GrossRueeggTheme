@@ -1,5 +1,5 @@
 <template>
-  <div class="bv-example-row pt-1">
+  <div class="bv-example-row pt-1 relative-dude">
     <GridFilterBar
       class="grid-filter-bar__wrapper"
       taxonomy-name="classification"
@@ -7,6 +7,7 @@
       :posts="posts"
       v-on:select:taxonomy="selectTaxonomy($event)"
     ></GridFilterBar>
+    <div class="fake-mask" :class="{'enabled': enableMask}"></div>
     <GridIsotope
       ref="grid"
       :selected="selectedTaxonomy"
@@ -24,7 +25,7 @@ export default {
     GridFilterBar,
     GridIsotope,
   },
-  props: [ "limit", "posts", "theme" ],
+  props: [ "limit", "posts", "theme", "enableMask" ],
   data() {
     return {
       selectedTaxonomy: 0,
@@ -46,7 +47,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-</style>
-<style type="text/css">
-  
+.relative-dude {
+  position: relative;
+}
+.fake-mask {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 60px);
+  background: #FFF;
+  z-index: -100;
+  opacity: 0;
+  transition: opacity ease-in-out 0.1s;
+  &.enabled {
+    opacity: 1;
+    z-index: 1;
+  }
+}
 </style>
