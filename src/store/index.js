@@ -60,7 +60,9 @@ export default new Vuex.Store({
         Vue.set(state.references.refsByTaxId, payload.taxId, payload.refsArray)
       }
       if (state.references.allRefs.length > 0) {
+        console.log(state.references.allRefs, payload.refsArray)
         state.references.allRefs = _.uniqBy(_.union(state.references.allRefs, payload.refsArray), 'id')
+        console.log('new state after addition', state.references.allRefs)
       } else {
         Vue.set(state.references, 'allRefs', payload.refsArray)
       }

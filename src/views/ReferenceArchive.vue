@@ -82,6 +82,12 @@ export default {
             setTimeout( () => {
               this.enableMask = false;
             }, 300)
+            console.log(this.$refs)
+            /*
+            setTimeout(() => {
+              this.$refs.grid.$refs.grid.refresh()
+            }, 100)
+            */
         })
       } else {
         console.log('do nothing for now, the key exists')

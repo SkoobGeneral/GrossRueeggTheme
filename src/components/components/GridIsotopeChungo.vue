@@ -1,15 +1,15 @@
 <template>
   <div class="containerx">
     <Isotope
-      :list="posts"
+      :list="clonedPosts"
       :options="isotopeOptions"
       class="isoDefault customGrid animated fadeIn delay-1s"
       id="root_isotope"
       ref="isotope"
-      :class='[posts.classification]'
+      :class='[clonedPosts.classification]'
     >
       <div
-        v-for="(post, index) in posts"
+        v-for="(post, index) in clonedPosts"
         :key="Math.random() + post.id"
         :class="`order_${post.class}`"
         class="grid-item"
@@ -37,10 +37,11 @@ export default {
   components: {
     Isotope
   },
-  props: [ "selected" ],
+  props: [ "posts", "selected" ],
 
   data () {
     return {
+      clonedPosts: [],
       visible: 0,
       finalSelection: 0,
       totalVisibleItems: 0
@@ -48,9 +49,6 @@ export default {
   },
 
   computed: {
-    posts () {
-      return this.$store.state.references.allRefs
-    },
     isotopeOptions () {
       var that = this
       return {
@@ -58,12 +56,7 @@ export default {
         percentPosition: true,
         masonry: {
           columnWidth: 1,
-          gutter: 0,
-          hiddenClass: 'hidden-class',
-        },
-        hiddenClass: 'hidden-class',
-        options: {
-          hiddenClass: 'hidden-class',
+          gutter: 0
         },
         getSortData: {
           id: "id"
@@ -80,10 +73,59 @@ export default {
     },
   },
   methods: {
+    isInvisible(index, taxonomy) {
+      if (taxonomy === 0) {
+        return false
+      }
+      return !this.clonedPosts[index].classification.includes(taxonomy)
+    },
+    refresh () {
+      this.clonedPosts = JSON.parse(JSON.stringify(this.$store.state.references.allRefs))
+      console.log('clonedPosts before', this.clonedPosts[0], this.clonedPosts.length)
+
+      this.clonedPosts.forEach((post, index, arr) => {
+        if (post.classification.includes(this.selected)) {
+          Vue.set(this.clonedPosts[index], 'visible', true)
+        } else {
+          Vue.set(this.clonedPosts[index], 'visible', false)
+        }
+        if (this.selected === 0) {
+          Vue.set(this.clonedPosts[index], 'visible', true)
+        }
+      })
+      var visible = this.clonedPosts.filter(item => {
+        return item.visible
+      })
+      this.visible = visible
+      var counter = 1
+
+      this.clonedPosts.forEach((post, index, arr) => {
+        if (post.visible) {
+          Vue.set(this.clonedPosts[index], 'order', counter)
+          counter++
+
+          // Calculate the class based on the number of visible items
+          var classx = 14
+          if (visible.length >= 3) {
+            classx = (counter-1) % 6
+          } else if (visible.length === 2) {
+            classx = 42
+          }
+          Vue.set(this.clonedPosts[index], 'class', classx)
+
+        } else {
+          Vue.set(this.clonedPosts[index], 'order', 0)
+        }
+      })
+
+      this.totalVisibleItems = counter - 1
+      console.log('clonedPosts after', this.clonedPosts, this.clonedPosts.length)
+    }
   },
 
 
   mounted () {
+    //this.refresh()
   },
 
   watch: {
@@ -136,10 +178,10 @@ export default {
   @include breakpoint($md) {
     height: 300px;
   }
-  &:nth-child(6n+1),
-  &:nth-child(6n+3),
-  &:nth-child(6n+5),
-  &:nth-child(6n+6) {
+  &.order_1,
+  &.order_3,
+  &.order_5,
+  &.order_0 {
     @include breakpoint($sm) {
       width: calc(33.333% - 5px);
       height: 200px;
@@ -148,8 +190,8 @@ export default {
       height: 300px;      
     }
   }
-  &:nth-child(6n+2),
-  &:nth-child(6n+4) {
+  &.order_2,
+  &.order_4 {
     @include breakpoint($sm) {
       width: calc(66.6666% - 5px);
       height: 410px;
@@ -166,7 +208,7 @@ export default {
     }
   }
 }
-.item__imgx {
+.order_2 .item__imgx, .order_4 .item__imgx, .item__imgx {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+ */
     filter: gray; /* IE6-9 */
     -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
@@ -174,7 +216,7 @@ export default {
     -webkit-backface-visibility: hidden; /* Fix for transition flickering */
 }
 
-.item__imgx:hover{
+.order_2:hover .item__imgx , .order_4:hover .item__imgx, .item__imgx:hover{
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
     -webkit-filter: grayscale(0%);
 }

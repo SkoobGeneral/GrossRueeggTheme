@@ -58,6 +58,6 @@
     "vue-ins-progress-bar": "^1.0.0",
     "vue-moment": "^4.0.0",
     "vue-router-back-button": "^1.1.1",
-    "vueisotope": "^3.1.2"
+    "vueisotope": "git+https://github.com/SkoobGeneral/Vue.Isotope"
   }
 }

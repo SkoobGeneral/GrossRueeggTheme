@@ -27,6 +27,7 @@ import Footer from './components/partials/Footer'
 import Navigation from './components/components/Navigation.vue'
 import TransitionPage from './components/components/TransitionPage.vue'
 import Isotope from 'vueisotope'
+//import Isotope from './components/components/vueisotope'
 
 export default {
   name: 'App',
