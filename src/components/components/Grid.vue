@@ -40,7 +40,7 @@ export default {
       this.$emit('taxonomy:select', event.term)
     },
     refresh () {
-      this.$refs.grid.refresh()
+      //this.$refs.grid.refresh()
     }
   }
 }

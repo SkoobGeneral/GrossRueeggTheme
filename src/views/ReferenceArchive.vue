@@ -4,7 +4,7 @@
       <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Referenzen</h1>
       <Grid
         ref="grid"
-        :posts="clonedPosts"
+        :posts="posts"
         v-if="posts"
         v-on:taxonomy:select="getReferencesByTaxId($event)"
         :enableMask="enableMask"
@@ -62,32 +62,20 @@ export default {
     posts () {
       return this.$store.state.references.allRefs
     },
-    clonedPosts () {
-      return JSON.parse(JSON.stringify(this.posts))
-    }
   },
 
   methods: {
     getReferencesByTaxId(taxId) {
       var taxPages = this.$store.state.references.taxPages
       if (!this.$store.state.references.refsByTaxId.hasOwnProperty(taxId)) {
-        this.enableMask = true;
         //var pageToFetch = taxPages[taxId]
         var pageToFetch = 1
+        console.log('request sent')
         axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=10&page=${pageToFetch}`)
           .then(response => {
             // guardar la página actual y el núimero de paginas para esta taxonomía.
             //this.$store.commit()
             this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
-            setTimeout( () => {
-              this.enableMask = false;
-            }, 300)
-            console.log(this.$refs)
-            /*
-            setTimeout(() => {
-              this.$refs.grid.$refs.grid.refresh()
-            }, 100)
-            */
         })
       } else {
         console.log('do nothing for now, the key exists')

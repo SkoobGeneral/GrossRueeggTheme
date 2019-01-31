@@ -11,7 +11,9 @@
       <div
         v-for="(post, index) in posts"
         :key="Math.random() + post.id"
-        :class="`order_${post.class}`"
+        :class="`order_${post.class} animated fadeIn delay-1s`"
+        :id="post.id"
+        v-if="post.classification.includes(selected)"
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
@@ -30,6 +32,7 @@
 <script>
 import Isotope from 'vueisotope'
 import IsotopeFitColumns from 'isotope-fit-columns'
+import IsotopePackery from 'isotope-packery'
 
 import Vue from 'vue'
 
@@ -55,19 +58,14 @@ export default {
       var that = this
       return {
         itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
+        percentPosition: false,
+        layoutMode: "packery",
+        packery: {
           columnWidth: 1,
           gutter: 0,
-          hiddenClass: 'hidden-class',
+          horizontalOrder: true
         },
-        hiddenClass: 'hidden-class',
-        options: {
-          hiddenClass: 'hidden-class',
-        },
-        getSortData: {
-          id: "id"
-        },
+        transitionDuration: 0,
         getFilterData: {
           filterByClassification (item) {
             if (!that.selected) {
@@ -80,6 +78,12 @@ export default {
     },
   },
   methods: {
+    layout () {
+      this.$refs.isotope.layout()
+    },
+    filter () {
+      this.$refs.isotope.filter('filterByClassification')
+    }
   },
 
 
@@ -87,8 +91,15 @@ export default {
   },
 
   watch: {
+    posts (value) {
+      setTimeout(() => {
+        //this.layout()
+      }, 1000)
+    },
     selected (value) {
-      this.$refs.isotope.filter('filterByClassification')
+      setTimeout(() => {
+        //this.filter()
+      }, 1000)
     }
   }
 
@@ -136,10 +147,10 @@ export default {
   @include breakpoint($md) {
     height: 300px;
   }
-  &:nth-child(6n+1),
-  &:nth-child(6n+3),
-  &:nth-child(6n+5),
-  &:nth-child(6n+6) {
+  &:not(.isotope-hidden):nth-child(6n+1),
+  &:not(.isotope-hidden):nth-child(6n+3),
+  &:not(.isotope-hidden):nth-child(6n+5),
+  &:not(.isotope-hidden):nth-child(6n+6) {
     @include breakpoint($sm) {
       width: calc(33.333% - 5px);
       height: 200px;
@@ -148,8 +159,8 @@ export default {
       height: 300px;      
     }
   }
-  &:nth-child(6n+2),
-  &:nth-child(6n+4) {
+  &:not(.isotope-hidden):nth-child(6n+2),
+  &:not(.isotope-hidden):nth-child(6n+4) {
     @include breakpoint($sm) {
       width: calc(66.6666% - 5px);
       height: 410px;
@@ -159,7 +170,7 @@ export default {
     }
   }
 
-  &.order_14 {
+  &:not(.isotope-hidden).order_14 {
     @include breakpoint($md) {
       height: 400px;
       margin-left: 25% !important;
@@ -179,4 +190,8 @@ export default {
     -webkit-filter: grayscale(0%);
 }
 
+
+.isotope-displayed:nth-child(6n+1) {
+  border: 10px solid red;
+}
 </style>

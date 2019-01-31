@@ -51,6 +51,8 @@
     "i": "^0.3.6",
     "isotope-fit-columns": "^1.1.4",
     "isotope-layout": "^3.0.6",
+    "isotope-masonry-horizontal": "^2.0.1",
+    "isotope-packery": "^2.0.1",
     "leaflet-map": "^0.2.1",
     "npm": "^6.4.1",
     "vue": "2.5.17",
