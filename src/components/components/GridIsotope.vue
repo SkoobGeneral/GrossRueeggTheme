@@ -11,15 +11,15 @@
       <div
         v-for="(post, index) in posts"
         :key="Math.random() + post.id"
-        :class="`order_${post.class} animated fadeIn delay-1s`"
+        :class="`animated fadeIn delay-1s`"
         :id="post.id"
-        v-if="post.classification.includes(selected)"
+        v-if="post.classification.includes(selected) && selected !== 0"
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
           <div class="item__imgx" :style="{backgroundImage: `url(${post.acf.hero_carousel[0].picture.url}`}" v-if="post.acf.hero_carousel[0].picture.url && post.acf.hero_carousel[0].picture.url.length"></div>
           <div class="item__infox">
-            <p class="title is-6 is-marginless mt-2" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e;"><nobr v-html="post.acf.title"></nobr> - order: {{`order_${post.class}`}}</p>
+            <p class="title is-6 is-marginless mt-2" v-if="post.acf.title && post.acf.title.length" style="color: #f25f2e;"><nobr v-html="post.acf.title"></nobr></p>
             <p class="subtitle is-5 is-marginless" v-if="post.acf.place && post.acf.place.length" v-html="post.acf.place">
             </p>
           </div>
@@ -170,10 +170,11 @@ export default {
     }
   }
 
-  &:not(.isotope-hidden).order_14 {
+  &:not(.isotope-hidden):only-child {
     @include breakpoint($md) {
-      height: 400px;
-      margin-left: 25% !important;
+      height: 610px;
+      width: calc(66.6666% - 5px);
+      margin-left: 16.3% !important;
     }
   }
 }
