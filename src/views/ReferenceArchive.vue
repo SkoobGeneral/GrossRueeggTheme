@@ -70,7 +70,7 @@ export default {
       if (!this.$store.state.references.refsByTaxId.hasOwnProperty(taxId)) {
         //var pageToFetch = taxPages[taxId]
         var pageToFetch = 1
-        console.log('request sent')
+        //console.log('request sent')
         axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=10&page=${pageToFetch}`)
           .then(response => {
             // guardar la página actual y el núimero de paginas para esta taxonomía.
@@ -78,7 +78,7 @@ export default {
             this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
         })
       } else {
-        console.log('do nothing for now, the key exists')
+        //console.log('do nothing for now, the key exists')
       }
     },
 

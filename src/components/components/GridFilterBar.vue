@@ -29,8 +29,8 @@ export default {
   data () {
     return {
       taxonomies: [{
-        id: 0,
-        name: 'Alle'
+        //id: 0,
+        //name: 'Alle'
       }],
       currentTaxonomy: 0,
       fade: false,
