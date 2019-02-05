@@ -36,7 +36,6 @@
 
 <script>
 import Isotope from 'vueisotope'
-import IsotopeFitColumns from 'isotope-fit-columns'
 
 import Vue from 'vue'
 

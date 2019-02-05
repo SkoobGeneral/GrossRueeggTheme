@@ -31,7 +31,6 @@
 
 <script>
 import Isotope from 'vueisotope'
-import IsotopeFitColumns from 'isotope-fit-columns'
 import IsotopePackery from 'isotope-packery'
 
 import Vue from 'vue'

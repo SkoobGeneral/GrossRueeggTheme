@@ -49,10 +49,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "bulma": "^0.7.1",
     "i": "^0.3.6",
-    "isotope-fit-columns": "^1.1.4",
-    "isotope-layout": "^3.0.6",
-    "isotope-masonry-horizontal": "^2.0.1",
-    "isotope-packery": "^2.0.1",
+    "isotope-packery": "git+https://github.com/SkoobGeneral/isotope-packery",
     "leaflet-map": "^0.2.1",
     "npm": "^6.4.1",
     "vue": "2.5.17",
@@ -60,6 +57,6 @@
     "vue-ins-progress-bar": "^1.0.0",
     "vue-moment": "^4.0.0",
     "vue-router-back-button": "^1.1.1",
-    "vueisotope": "git+https://github.com/SkoobGeneral/Vue.Isotope"
+    "vueisotope": "git+https://github.com/SkoobGeneral/Vue.Isotope#3.1.3"
   }
 }
