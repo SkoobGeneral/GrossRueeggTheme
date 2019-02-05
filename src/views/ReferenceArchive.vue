@@ -7,14 +7,8 @@
         :posts="posts"
         v-if="posts"
         v-on:taxonomy:select="getReferencesByTaxId($event)"
-        :enableMask="enableMask"
+        v-on:load:more="loadMore($event)"
       ></Grid>
-      <div class="has-text-right load_more_wrapper">
-      <button class="button is-light animated fadeIn delay-2s"
-        @click="loadMore()"
-        v-if="current < lastPage"
-      >Load more!</button>
-    </div>
     </div>
   </div>
 </template>
@@ -30,35 +24,15 @@ export default {
 
   data() {
     return {
-      enableMask: false,
-      current: 1,
-      perPage: 3,
-      lastPage : 0,
-      // borrar post: ?????
-      /*
-      post: {
-        type: Object,
-        default() {
-          return {
-            id: 0,
-            slug: '',
-            title: { rendered: '' },
-            content: { rendered: '' }
-          }
-        }
-      } */      
+      perPage: 10,
     }
   },
 
   mounted() {
-    //this.getReferences()
-    //this.getReferencesByTaxId(13) //0 is the ID of the 'featured' category
+    this.getReferencesByTaxId(13) //13 is the ID of the 'featured' category      
   },
 
   computed: {
-    taxPages () {
-      return this.$store.references.currentTaxPages //save this please
-    },
     posts () {
       return this.$store.state.references.allRefs
     },
@@ -66,42 +40,30 @@ export default {
 
   methods: {
     getReferencesByTaxId(taxId) {
-      var taxPages = this.$store.state.references.taxPages
+      var currentPage = 1
       if (!this.$store.state.references.refsByTaxId.hasOwnProperty(taxId)) {
-        //var pageToFetch = taxPages[taxId]
-        var pageToFetch = 1
-        //console.log('request sent')
-        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=10&page=${pageToFetch}`)
-          .then(response => {
-            // guardar la página actual y el núimero de paginas para esta taxonomía.
-            //this.$store.commit()
-            this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
-        })
       } else {
-        //console.log('do nothing for now, the key exists')
+        if (this.$store.state.references.currentTaxPages[taxId] + 1 <= this.$store.state.references.maxTaxPages[taxId]) {
+          currentPage = this.$store.state.references.currentTaxPages[taxId] + 1
+        } else {
+          return
+        }
+      }
+      try {
+        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=${this.perPage}&page=${currentPage}`)
+          .then(response => {
+            this.$store.commit('saveMaxPagesById', { taxId: taxId, maxPages: response.headers['x-wp-totalpages'] })
+            this.$store.commit('currentTaxPagesById', { taxId: taxId, currentPage: currentPage })
+            this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
+        }).catch(err => {
+          console.log(err.response)
+        })
+      } catch(err) {
+        console.log('error')
       }
     },
-
-    getReferences: function() {
-      axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?per_page=${this.perPage}&page=${this.current}`)
-      .then(response => {
-        setTimeout(() => {
-          this.lastPage = response.headers['x-wp-totalpages'];
-          if (!this.posts.length) {
-            this.posts = response.data
-          } else {
-            this.posts = this.posts.concat(response.data);
-          }
-          this.$refs.grid.refresh()
-        }, 1)
-      })
-      .catch(e => {
-        console.log(e);
-      })
-    },
-    loadMore () {
-      this.current++
-      this.getReferences()
+    loadMore (event) {
+      this.getReferencesByTaxId(event.taxId)
     }
   }
 }

@@ -53,6 +53,14 @@ export default new Vuex.Store({
     increaseTaxPage (state, taxId) {
       state.references.taxPages[taxId]++
     },
+
+//
+    saveMaxPagesById (state, payload) {
+      Vue.set(state.references.maxTaxPages, payload.taxId, payload.maxPages)
+    },
+    currentTaxPagesById (state, payload) {
+      Vue.set(state.references.currentTaxPages, payload.taxId, payload.currentPage)
+    },
     saveReferencesByTaxId (state, payload) {
       if (state.references.refsByTaxId[payload.taxId] && state.references.refsByTaxId[payload.taxId].length) {
         state.references.refsByTaxId[payload.taxId] = _.uniqBy(_.union(state.references.refsByTaxId[payload.taxId], payload.refsArray), 'id')

@@ -12,6 +12,7 @@
       ref="grid"
       :selected="selectedTaxonomy"
       :posts="posts"
+      v-on:load:more="loadMore()"
     ></GridIsotope>
   </div>
 </template>
@@ -28,7 +29,7 @@ export default {
   props: [ "limit", "posts", "theme", "enableMask" ],
   data() {
     return {
-      selectedTaxonomy: 0,
+      selectedTaxonomy: 13,
     }
   },
 
@@ -38,6 +39,9 @@ export default {
     selectTaxonomy(event) {
       this.selectedTaxonomy = event.term
       this.$emit('taxonomy:select', event.term)
+    },
+    loadMore () {
+      this.$emit('load:more', { taxId: this.selectedTaxonomy })
     },
     refresh () {
       //this.$refs.grid.refresh()

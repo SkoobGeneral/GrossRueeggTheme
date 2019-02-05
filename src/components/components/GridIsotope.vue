@@ -26,6 +26,11 @@
         </router-link>
       </div>
     </Isotope>
+    <button
+      class="button is-danger is-large"
+      v-if="hasMorePosts"
+      @click="loadMore()"
+    >load more</button>
   </div>
 </template>
 
@@ -75,6 +80,9 @@ export default {
         }
       }
     },
+    hasMorePosts () {
+      return this.$store.state.references.maxTaxPages[this.selected] > this.$store.state.references.currentTaxPages[this.selected]
+    }
   },
   methods: {
     layout () {
@@ -82,6 +90,9 @@ export default {
     },
     filter () {
       this.$refs.isotope.filter('filterByClassification')
+    },
+    loadMore () {
+      this.$emit('load:more')
     }
   },
 

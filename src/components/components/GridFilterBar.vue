@@ -65,24 +65,6 @@ export default {
         return post.classification.includes(taxonomyId)
       })
       return filtered.length > 0
-    },
-    getReferencesForThisTaxonomy(taxonomyId) {
-      /*
-      axios.get(...&tax_id=taxonomyId)
-        .then(response => {
-          this.$store.commit('ADD_MORE_ENTRIES', {
-            taxonomyId: taxonomyId,
-            posts: response.data
-          })
-        }
-
-        // en es store, use Vue.set eventually
-        if (state.store.entries) {
-          state.store.entries = state.store.entries.concat(posts)
-        } else {
-          state.store.entries = posts
-        }
-      */
     }
   },
 
