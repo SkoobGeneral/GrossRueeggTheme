@@ -159,10 +159,10 @@ export default {
   &:not(.isotope-hidden) {
     @include breakpoint($sm) {
       width: calc(33.333% - 5px);
-      height: 200px;
+      height: 250px;
     }
     @include breakpoint($md) {
-      height: 300px;      
+      height: 330px;      
     }
   }
 

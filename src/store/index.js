@@ -44,6 +44,18 @@ function initialState () {
         //1: 3
       },
       refsByTaxIdAssets: {} // the actual references by taxId
+    },
+    news: {
+      allRefsNews: [],
+      maxTaxPagesNews: { //maximum of pages per reference, taken from the header in the API response
+        //0: 1,
+        //1: 1 //save...
+      },
+      currentTaxPagesNews: { // current page by taxId
+        //0: 1
+        //1: 3
+      },
+      refsByTaxIdNews: {} // the actual references by taxId
     }
   }
 }
@@ -102,6 +114,25 @@ export default new Vuex.Store({
         state.assets.allRefsAssets = _.uniqBy(_.union(state.assets.allRefsAssets, payload.refsArrayAssets), 'id')
       } else {
         Vue.set(state.assets, 'allRefsAssets', payload.refsArrayAssets)
+      }
+    },
+    //NEWS
+    saveMaxPagesByIdNews (state, payload) {
+      Vue.set(state.news.maxTaxPagesNews, payload.taxId, payload.maxPages)
+    },
+    currentTaxPagesByIdNews (state, payload) {
+      Vue.set(state.news.currentTaxPagesNews, payload.taxId, payload.currentPage)
+    },
+    saveReferencesByTaxIdNews (state, payload) {
+      if (state.news.refsByTaxIdNews[payload.taxId] && state.news.refsByTaxIdNews[payload.taxId].length) {
+        state.news.refsByTaxIdNews[payload.taxId] = _.uniqBy(_.union(state.news.refsByTaxIdNews[payload.taxId], payload.refsArray), 'id')
+      } else {
+        Vue.set(state.news.refsByTaxIdNews, payload.taxId, payload.refsArray)
+      }
+      if (state.news.allRefsNewss.length > 0) {
+        state.news.allRefsNews = _.uniqBy(_.union(state.news.allRefsNews, payload.refsArrayNews), 'id')
+      } else {
+        Vue.set(state.news, 'allRefsNews', payload.refsArrayNews)
       }
     }
   },
