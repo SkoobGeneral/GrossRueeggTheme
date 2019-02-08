@@ -2,14 +2,14 @@
   <div class="bv-example-row pt-1 relative-dude">
     <GridFilterBar
       class="grid-filter-bar__wrapper"
-      taxonomy-name="classification"
+      taxonomy-name="classification2"
       :selected="selectedTaxonomy"
       :posts="posts"
       v-on:select:taxonomy="selectTaxonomy($event)"
     ></GridFilterBar>
     <div class="fake-mask" :class="{'enabled': enableMask}"></div>
     <GridIsotope
-      ref="grid"
+      ref="grid-immobilien"
       :selected="selectedTaxonomy"
       :posts="posts"
       v-on:load:more="loadMore()"
@@ -29,7 +29,7 @@ export default {
   props: [ "limit", "posts", "theme", "enableMask" ],
   data() {
     return {
-      selectedTaxonomy: 13,
+      selectedTaxonomy: 14,
     }
   },
 

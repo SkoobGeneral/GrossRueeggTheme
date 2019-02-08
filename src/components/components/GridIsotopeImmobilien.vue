@@ -6,14 +6,14 @@
       class="isoDefault customGrid animated fadeIn delay-1s"
       id="root_isotope"
       ref="isotope"
-      :class='[posts.classification]'
+      :class='[posts.classification2]'
     >
       <div
         v-for="(post, index) in posts"
         :key="Math.random() + post.id"
         :class="`animated fadeIn delay-1s`"
         :id="post.id"
-        v-if="post.classification.includes(selected) && selected !== 0"
+        v-if="post.classification2.includes(selected) && selected !== 0"
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
@@ -56,7 +56,7 @@ export default {
 
   computed: {
     posts () {
-      return this.$store.state.references.allRefs
+      return this.$store.state.assets.allRefsAssets
     },
     isotopeOptions () {
       var that = this
@@ -75,13 +75,13 @@ export default {
             if (!that.selected) {
               return true
             }
-            return item.classification.includes(that.selected)
+            return item.classification2.includes(that.selected)
           }
         }
       }
     },
     hasMorePosts () {
-      return this.$store.state.references.maxTaxPages[this.selected] > this.$store.state.references.currentTaxPages[this.selected]
+      return this.$store.state.assets.maxTaxPagesAssets[this.selected] > this.$store.state.assets.currentTaxPagesAssets[this.selected]
     }
   },
   methods: {
@@ -156,26 +156,13 @@ export default {
   @include breakpoint($md) {
     height: 300px;
   }
-  &:not(.isotope-hidden):nth-child(6n+1),
-  &:not(.isotope-hidden):nth-child(6n+3),
-  &:not(.isotope-hidden):nth-child(6n+5),
-  &:not(.isotope-hidden):nth-child(6n+6) {
+  &:not(.isotope-hidden) {
     @include breakpoint($sm) {
       width: calc(33.333% - 5px);
       height: 200px;
     }
     @include breakpoint($md) {
       height: 300px;      
-    }
-  }
-  &:not(.isotope-hidden):nth-child(6n+2),
-  &:not(.isotope-hidden):nth-child(6n+4) {
-    @include breakpoint($sm) {
-      width: calc(66.6666% - 5px);
-      height: 410px;
-    }
-    @include breakpoint($md) {
-      height: 610px;
     }
   }
 
