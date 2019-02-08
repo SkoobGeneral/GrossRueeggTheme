@@ -32,6 +32,18 @@ function initialState () {
         //1: 3
       },
       refsByTaxId: {} // the actual references by taxId
+    },
+    assets: {
+      allRefsAssets: [],
+      maxTaxPagesAssets: { //maximum of pages per reference, taken from the header in the API response
+        //0: 1,
+        //1: 1 //save...
+      },
+      currentTaxPagesAssets: { // current page by taxId
+        //0: 1
+        //1: 3
+      },
+      refsByTaxIdAssets: {} // the actual references by taxId
     }
   }
 }
@@ -54,7 +66,7 @@ export default new Vuex.Store({
       state.references.taxPages[taxId]++
     },
 
-//
+//REFS
     saveMaxPagesById (state, payload) {
       Vue.set(state.references.maxTaxPages, payload.taxId, payload.maxPages)
     },
@@ -71,6 +83,25 @@ export default new Vuex.Store({
         state.references.allRefs = _.uniqBy(_.union(state.references.allRefs, payload.refsArray), 'id')
       } else {
         Vue.set(state.references, 'allRefs', payload.refsArray)
+      }
+    },
+//ASSETS
+    saveMaxPagesByIdAssets (state, payload) {
+      Vue.set(state.assets.maxTaxPagesAssets, payload.taxId, payload.maxPages)
+    },
+    currentTaxPagesByIdAssets (state, payload) {
+      Vue.set(state.assets.currentTaxPagesAssets, payload.taxId, payload.currentPage)
+    },
+    saveReferencesByTaxIdAssets (state, payload) {
+      if (state.assets.refsByTaxIdAssets[payload.taxId] && state.assets.refsByTaxIdAssets[payload.taxId].length) {
+        state.assets.refsByTaxIdAssets[payload.taxId] = _.uniqBy(_.union(state.assets.refsByTaxIdAssets[payload.taxId], payload.refsArray), 'id')
+      } else {
+        Vue.set(state.assets.refsByTaxIdAssets, payload.taxId, payload.refsArray)
+      }
+      if (state.assets.allRefsAssets.length > 0) {
+        state.assets.allRefsAssets = _.uniqBy(_.union(state.assets.allRefsAssets, payload.refsArrayAssets), 'id')
+      } else {
+        Vue.set(state.assets, 'allRefsAssets', payload.refsArrayAssets)
       }
     }
   },

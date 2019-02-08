@@ -6,14 +6,12 @@
       class="isoDefault customGrid animated fadeIn delay-1s"
       id="root_isotope"
       ref="isotope"
-      :class='[posts.classification]'
+      :class='[posts.classification2]'
     >
       <div
         v-for="(post, index) in posts"
-        :key="Math.random() + post.id"
-        :class="`animated fadeIn delay-1s`"
-        :id="post.id"
-        v-if="post.classification.includes(selected) && selected !== 0"
+        :key="post.id"
+        :class="`order_${post.class}`"
         class="grid-item"
       > 
         <router-link :to="`/${post.type}/${post.slug}`">
@@ -26,17 +24,11 @@
         </router-link>
       </div>
     </Isotope>
-    <button
-      class="button is-danger is-large"
-      v-if="hasMorePosts"
-      @click="loadMore()"
-    >load more</button>
   </div>
 </template>
 
 <script>
 import Isotope from 'vueisotope'
-import IsotopePackery from 'isotope-packery'
 
 import Vue from 'vue'
 
@@ -44,68 +36,96 @@ export default {
   components: {
     Isotope
   },
-  props: [ "selected" ],
+  props: [ "posts", "selected" ],
 
   data () {
     return {
-      visible: 0,
       finalSelection: 0,
       totalVisibleItems: 0
     }
   },
 
   computed: {
-    posts () {
-      return this.$store.state.references.allRefs
-    },
     isotopeOptions () {
       var that = this
       return {
         itemSelector: '.grid-item',
-        percentPosition: false,
-        layoutMode: "packery",
-        packery: {
+        percentPosition: true,
+        masonry: {
           columnWidth: 1,
-          gutter: 0,
-          horizontalOrder: true
+          gutter: 0
         },
-        transitionDuration: 0,
+        getSortData: {
+          id: "id"
+        },
         getFilterData: {
           filterByClassification (item) {
             if (!that.selected) {
               return true
             }
-            return item.classification.includes(that.selected)
+            return item.classification2.includes(that.selected)
           }
         }
       }
     },
-    hasMorePosts () {
-      return this.$store.state.references.maxTaxPages[this.selected] > this.$store.state.references.currentTaxPages[this.selected]
-    }
   },
   methods: {
-    layout () {
-      this.$refs.isotope.layout()
+    isInvisible(index, taxonomy) {
+      if (taxonomy === 0) {
+        return false
+      }
+      return !this.posts[index].classification2.includes(taxonomy)
     },
-    filter () {
-      this.$refs.isotope.filter('filterByClassification')
-    },
-    loadMore () {
-      this.$emit('load:more')
+    refresh () {
+      this.posts.forEach((post, index, arr) => {
+        if (post.classification2.includes(this.selected)) {
+          Vue.set(this.posts[index], 'visible', true)
+        } else {
+          Vue.set(this.posts[index], 'visible', false)
+        }
+        if (this.selected === 0) {
+          Vue.set(this.posts[index], 'visible', true)
+        }
+      })
+      var visible = this.posts.filter(item => {
+        return item.visible
+      })
+      var counter = 1
+      this.posts.forEach((post, index, arr) => {
+        if (post.visible) {
+          Vue.set(this.posts[index], 'order', counter)
+          counter++
+
+          // Calculate the class based on the number of visible items
+          var classx = 14
+          if (visible.length >= 3) {
+            classx = (counter-1) % 2
+          } else if (visible.length === 2) {
+            classx = 42
+          }
+          Vue.set(this.posts[index], 'class', classx)
+
+        } else {
+          Vue.set(this.posts[index], 'order', 0)
+        }
+      })
+
+      this.totalVisibleItems = counter - 1
     }
   },
 
 
   mounted () {
+    this.refresh()
   },
 
   watch: {
-    posts (value) {
-      setTimeout(function () {}, 1000)
-    },
     selected (value) {
-      setTimeout(function () {}, 1000);
+      this.refresh()
+      this.$refs.isotope.filter('filterByClassification')
+    },
+    posts () {
+      this.refresh()
     }
   }
 
@@ -127,12 +147,8 @@ export default {
   }
   &__infox {
     height: 80px;
-    margin-left: 10px;
     overflow-x: hidden;
     overflow-y: hidden;
-    @include breakpoint($sm) {
-      margin-left: 0px;
-    }
   }
 }
 
@@ -152,14 +168,15 @@ export default {
     width: calc(50% - 5px);
     border: 10px solid white;
     margin-bottom: 10px;
+    /*height: 200px;*/
   }
   @include breakpoint($md) {
     height: 300px;
   }
-  &:not(.isotope-hidden):nth-child(6n+1),
-  &:not(.isotope-hidden):nth-child(6n+3),
-  &:not(.isotope-hidden):nth-child(6n+5),
-  &:not(.isotope-hidden):nth-child(6n+6) {
+  &.order_1,
+  &.order_3,
+  &.order_5,
+  &.order_0 {
     @include breakpoint($sm) {
       width: calc(33.333% - 5px);
       height: 200px;
@@ -168,26 +185,14 @@ export default {
       height: 300px;      
     }
   }
-  &:not(.isotope-hidden):nth-child(6n+2),
-  &:not(.isotope-hidden):nth-child(6n+4) {
-    @include breakpoint($sm) {
-      width: calc(66.6666% - 5px);
-      height: 410px;
-    }
+  &.order_14 {
     @include breakpoint($md) {
-      height: 610px;
-    }
-  }
-
-  &:not(.isotope-hidden):only-child {
-    @include breakpoint($md) {
-      height: 610px;
-      width: calc(66.6666% - 5px);
-      margin-left: 16.3% !important;
+      height: 400px;
+      margin-left: 25% !important;
     }
   }
 }
-.item__imgx {
+.order_0 .item__imgx, .order_1 .item__imgx, .order_42 .item__imgx {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+ */
     filter: gray; /* IE6-9 */
     -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
@@ -195,13 +200,8 @@ export default {
     -webkit-backface-visibility: hidden; /* Fix for transition flickering */
 }
 
-.item__imgx:hover{
+.order_0:hover .item__imgx , .order_1:hover .item__imgx, .order_42:hover .item__imgx{
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
     -webkit-filter: grayscale(0%);
-}
-
-
-.isotope-displayed:nth-child(6n+1) {
-  border: 10px solid red;
 }
 </style>

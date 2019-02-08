@@ -25,9 +25,11 @@ mix.webpackConfig({
 mix.setPublicPath('dist')
    .js('src/app.js', 'scripts/')
    .extract([
+      'babel-preset-env',
+      'babel-polyfill',
+      'babel-plugin-transform-es2015-arrow-functions',
       'jquery',
       'axios',
-      'babel-polyfill',
       'lodash',
       'vue',
       'bootstrap-vue',

@@ -3,7 +3,7 @@
     <GridFilterBar
       class="grid-filter-bar__wrapper"
       taxonomy-name="classification"
-      :selected="0"
+      :selected="selectedTaxonomy"
       :posts="posts"
       v-on:select:taxonomy="selectTaxonomy($event)"
     ></GridFilterBar>

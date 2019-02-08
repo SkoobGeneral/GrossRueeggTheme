@@ -1,78 +1,74 @@
 <template>
-  <b-container class="bv-example-row pt-4 mt-3 mb-5">
-    <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">News</h1>
-    <GridNews
-      ref="grid"
-      :posts="posts"
-      v-if="posts"
-    ></GridNews>
-    <div class="has-text-right">
-      <button class="button is-light animated fadeIn delay-2s"
-        @click="loadMore()"
-        v-if="current < lastPage"
-      >Load more!</button>
+  <div class="container">
+    <div class="bv-example-row pt-4 mt-3 mb-5">
+      <h1 class="title is-1 has-text-centered has-text-weight-light animated fadeIn delay-2s" style="display: block;">Referenzen</h1>
+      <Grid
+        ref="grid"
+        :posts="posts"
+        v-if="posts"
+        v-on:taxonomy:select="getReferencesByTaxId($event)"
+        v-on:load:more="loadMore($event)"
+      ></Grid>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
 
-import GridNews from '../components/components/GridNews.vue';
+import Grid from '../components/components/Grid.vue';
 
 export default {
   components: {
-    GridNews
+    Grid,
   },
 
   data() {
     return {
-      posts: [],
-      current: 1,
-      perPage: 4,
-      lastPage : 0,
-      post: {
-        type: Object,
-        default() {
-          return {
-            id: 0,
-            slug: '',
-            title: { rendered: '' },
-            content: { rendered: '' }
-          }
-        }
-      }      
+      perPage: 10,
     }
   },
 
   mounted() {
-    this.getReferences()
+    this.getReferencesByTaxId(13) //13 is the ID of the 'featured' category      
+  },
+
+  computed: {
+    posts () {
+      return this.$store.state.references.allRefs
+    },
   },
 
   methods: {
-    getReferences: function() {
-      axios.get(`${window.SETTINGS.API_BASE_PATH}news?per_page=${this.perPage}&page=${this.current}`)
-      .then(response => {
-        setTimeout(() => {
-          this.lastPage = response.headers['x-wp-totalpages'];
-          if (!this.posts.length) {
-            this.posts = response.data
-          } else {
-            this.posts = this.posts.concat(response.data);
-          }
-          this.$refs.grid.refresh()
-        }, 1)
-      })
-      .catch(e => {
-        console.log(e);
-      })
+    getReferencesByTaxId(taxId) {
+      var currentPage = 1
+      if (!this.$store.state.references.refsByTaxId.hasOwnProperty(taxId)) {
+      } else {
+        if (this.$store.state.references.currentTaxPages[taxId] + 1 <= this.$store.state.references.maxTaxPages[taxId]) {
+          currentPage = this.$store.state.references.currentTaxPages[taxId] + 1
+        } else {
+          return
+        }
+      }
+      try {
+        axios.get(`${window.SETTINGS.API_BASE_PATH}referenzen?classification=${taxId}&per_page=${this.perPage}&page=${currentPage}`)
+          .then(response => {
+            this.$store.commit('saveMaxPagesById', { taxId: taxId, maxPages: response.headers['x-wp-totalpages'] })
+            this.$store.commit('currentTaxPagesById', { taxId: taxId, currentPage: currentPage })
+            this.$store.commit('saveReferencesByTaxId', { taxId: taxId, refsArray: response.data })
+        }).catch(err => {
+          console.log(err.response)
+        })
+      } catch(err) {
+        console.log('error')
+      }
     },
-    loadMore () {
-      this.current++
-      this.getReferences()
+    loadMore (event) {
+      this.getReferencesByTaxId(event.taxId)
     }
   }
 }
 </script>
 
 <style lang="scss">
+
 </style>
