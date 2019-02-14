@@ -129,7 +129,7 @@ export default new Vuex.Store({
       } else {
         Vue.set(state.news.refsByTaxIdNews, payload.taxId, payload.refsArray)
       }
-      if (state.news.allRefsNewss.length > 0) {
+      if (state.news.allRefsNews.length > 0) {
         state.news.allRefsNews = _.uniqBy(_.union(state.news.allRefsNews, payload.refsArrayNews), 'id')
       } else {
         Vue.set(state.news, 'allRefsNews', payload.refsArrayNews)

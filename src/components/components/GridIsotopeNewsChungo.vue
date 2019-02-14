@@ -1,5 +1,5 @@
 <template>
-  <div class="containerx">
+  <div>
     <Isotope
       :list="posts"
       :options="isotopeOptions"
@@ -10,12 +10,10 @@
     >
       <div
         v-for="(post, index) in posts"
-        :key="Math.random() + post.id"
-        :class="`animated fadeIn delay-1s`"
-        :id="post.id"
-        v-if="post.newstype.includes(selected) && selected !== 0"
-        class="grid-item"
-      ><div class="columns">
+        :key="post.id"
+        :class="`order_${post.order}`"
+        class="mt-5 mb-5"
+      > <div class="columns">
           <div class="column is-3 is-offset-1">
             <router-link :to="`/${post.type}/${post.slug}`">
             <figure>
@@ -33,17 +31,11 @@
         </div>
       </div>
     </Isotope>
-    <button
-      class="button is-danger is-large"
-      v-if="hasMorePosts"
-      @click="loadMore()"
-    >load more</button>
   </div>
 </template>
 
 <script>
 import Isotope from 'vueisotope'
-import IsotopePackery from 'isotope-packery'
 
 import Vue from 'vue'
 
@@ -51,34 +43,23 @@ export default {
   components: {
     Isotope
   },
-  props: [ "selected" ],
+  props: [ "posts", "selected" ],
 
   data () {
     return {
-      visible: 0,
       finalSelection: 0,
-      totalVisibleItems: 0
     }
   },
 
   computed: {
-    posts () {
-      return this.$store.state.news.allRefsNews
-    },
     isotopeOptions () {
       var that = this
       return {
-        itemSelector: '.grid-item',
-        percentPosition: false,
-        layoutMode: "packery",
-        packery: {
-          columnWidth: 1,
-          gutter: 0,
-          horizontalOrder: true
+        getSortData: {
+          id: "id"
         },
-        transitionDuration: 0,
         getFilterData: {
-          filterByClassification (item) {
+          filterBynewstype (item) {
             if (!that.selected) {
               return true
             }
@@ -86,33 +67,53 @@ export default {
           }
         }
       }
-    },
-    hasMorePosts () {
-      return this.$store.state.news.maxTaxPagesNews[this.selected] > this.$store.state.news.currentTaxPagesNews[this.selected]
     }
+
   },
   methods: {
-    layout () {
-      this.$refs.isotope.layout()
+    isInvisible(index, taxonomy) {
+      if (taxonomy === 0) {
+        return false
+      }
+      return !this.posts[index].newstype.includes(taxonomy)
     },
-    filter () {
-      this.$refs.isotope.filter('filterByClassification')
-    },
-    loadMore () {
-      this.$emit('load:more')
+    refresh () {
+      this.posts.forEach((post, index, arr) => {
+        if (post.newstype.includes(this.selected)) {
+          Vue.set(this.posts[index], 'visible', true)
+        } else {
+          Vue.set(this.posts[index], 'visible', false)
+        }
+        if (this.selected === 0) {
+          Vue.set(this.posts[index], 'visible', true)
+        }
+      })
+      var visible = this.posts.filter(item => {
+        return item.visible
+      })
+      var counter = 1
+      this.posts.forEach((post, index, arr) => {
+        if (post.visible) {
+          Vue.set(this.posts[index], 'order', counter)
+          counter++
+        } else {
+          Vue.set(this.posts[index], 'order', 0)
+        }
+      })
     }
   },
 
-
   mounted () {
+    this.refresh()
   },
 
   watch: {
-    posts (value) {
-      setTimeout(function () {}, 1000)
-    },
     selected (value) {
-      setTimeout(function () {}, 1000);
+      this.$refs.isotope.filter('filterBynewstype')
+      this.refresh()
+    },
+    posts () {
+      this.refresh()
     }
   }
 
@@ -120,82 +121,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../styles/_variables.scss";
-
-.item {
-  &__imgx {
-    display: block;
-    height: calc(100% - 80px);
+  .item img {
     width: 100%;
-    background: black;
-    background-size: cover;
-    background-repeat: none;
-    background-position: center center;
-  }
-  &__infox {
-    height: 80px;
-    margin-left: 10px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    @include breakpoint($sm) {
-      margin-left: 0px;
-    }
-  }
-}
-
-.customGrid:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
-.grid-item {
-  width: 100%;
-  height: 100%;
-  height: 300px;
-  margin-bottom: 10px;
-
-  @include breakpoint($sm) {
-    width: calc(50% - 5px);
-    border: 10px solid white;
-    margin-bottom: 10px;
-  }
-  @include breakpoint($md) {
-    //height: 300px;
-  }
-  &:not(.isotope-hidden) {
-    @include breakpoint($sm) {
-      width: 100%;
-      //height: 550px;
-    }
-    @include breakpoint($md) {
-      height: 330px;      
-    }
-  }
-
-  &:not(.isotope-hidden):only-child {
-    @include breakpoint($md) {
-      height: 610px;
-      width: calc(66.6666% - 5px);
-      margin-left: 16.3% !important;
-    }
-  }
-}
-.item__imgx {
+    object-fit:cover;
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+ */
     filter: gray; /* IE6-9 */
     -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
     -webkit-transition: all 1s ease; /* Fade to color for Chrome and Safari */
     -webkit-backface-visibility: hidden; /* Fix for transition flickering */
-}
-
-.item__imgx:hover{
+  }
+  .item img:hover {
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
     -webkit-filter: grayscale(0%);
-}
-
-
-.isotope-displayed:nth-child(6n+1) {
-  border: 10px solid red;
-}
+  }
 </style>
