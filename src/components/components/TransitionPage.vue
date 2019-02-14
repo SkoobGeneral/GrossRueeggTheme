@@ -26,38 +26,40 @@ export default {
     };
   },
   created() {
+    var that = this
     this.$router.beforeEach(function (to, from, next) {
-  var transitionName = to.meta.transitionName || from.meta.transitionName || DEFAULT_TRANSITION;
+      var transitionName = to.meta.transitionName || from.meta.transitionName || DEFAULT_TRANSITION;
 
-  if (transitionName === 'slide') {
-    var toDepth = to.path.split('/').length;
-    var fromDepth = from.path.split('/').length;
-    transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
-    if (true) {
-      console.log(toDepth);
-      console.log(fromDepth);
-    }
-  }
+      if (transitionName === 'slide') {
+        var toDepth = to.path.split('/').length;
+        var fromDepth = from.path.split('/').length;
+        transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+        if (true) {
+          console.log(toDepth);
+          console.log(fromDepth);
+        }
+      }
 
-  this.transitionMode = DEFAULT_TRANSITION_MODE;
-  this.transitionEnterActiveClass = transitionName + '-enter-active';
+      that.transitionMode = DEFAULT_TRANSITION_MODE;
+      that.transitionEnterActiveClass = transitionName + '-enter-active';
 
-  if (to.meta.transitionName === 'zoom') {
-    this.transitionMode = 'in-out';
-    this.transitionEnterActiveClass = 'zoom-enter-active';
-    document.body.style.overflow = 'hidden';
-  }
+      if (to.meta.transitionName === 'zoom') {
+        that.transitionMode = 'in-out';
+        that.transitionEnterActiveClass = 'zoom-enter-active';
+        document.body.style.overflow = 'hidden';
+      }
 
-  if (from.meta.transitionName === 'zoom') {
-    this.transitionMode = null;
-    this.transitionEnterActiveClass = null;
-    document.body.style.overflow = null;
-  }
+      if (from.meta.transitionName === 'zoom') {
+        that.transitionMode = null;
+        that.transitionEnterActiveClass = null;
+        document.body.style.overflow = null;
+      }
 
-  this.transitionName = transitionName;
+      that.transitionName = transitionName;
 
-  next();
-});
+      next();
+
+    });
   },
   methods: {
     beforeLeave(element) {
