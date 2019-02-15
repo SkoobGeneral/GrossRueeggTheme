@@ -29,7 +29,7 @@ export default {
   props: [ "limit", "posts", "theme", "enableMask" ],
   data() {
     return {
-      selectedTaxonomy: 13,
+      selectedTaxonomy: 2,
     }
   },
 
