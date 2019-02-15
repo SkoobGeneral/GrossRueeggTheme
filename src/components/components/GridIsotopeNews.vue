@@ -23,7 +23,7 @@
             </figure>
             </router-link>
           </div>
-          <div class="column is-7 is-offset-1">
+          <div class="column is-7 is-offset-1 ml-2 mr-2">
             <router-link :to="`/${post.type}/${post.slug}`">
             <h5 class="mb-3" v-html="post.acf.title" v-if="post.acf.title && post.acf.title.length" style="font-family: 'Source Sans Pro', sans-serif; font-weight: bold; overflow-x: hidden;"></h5>
             <p style="font-family: 'Source Sans Pro', sans-serif; margin-bottom: -1rem !important; font-size: 18px !important; font-weight: 300; overflow-x: hidden;" v-html="post.excerpt.rendered" v-if="post.excerpt.rendered && post.excerpt.rendered.length"></p>
@@ -150,34 +150,26 @@ export default {
 }
 
 .grid-item {
+  min-height: 300px;
   width: 100%;
-  height: 100%;
-  height: 300px;
   margin-bottom: 10px;
 
-  @include breakpoint($sm) {
-    width: calc(50% - 5px);
-    border: 10px solid white;
-    margin-bottom: 10px;
-  }
-  @include breakpoint($md) {
-    //height: 300px;
-  }
   &:not(.isotope-hidden) {
-    @include breakpoint($sm) {
-      width: 100%;
+    @include breakpoint($xs) {
+      height: 600px;
       //height: 550px;
     }
-    @include breakpoint($md) {
-      height: 330px;      
+    @include breakpoint($sm) {
+      height: 300px;
+      //height: 550px;
     }
   }
 
   &:not(.isotope-hidden):only-child {
     @include breakpoint($md) {
-      height: 610px;
-      width: calc(66.6666% - 5px);
-      margin-left: 16.3% !important;
+      //height: 610px;
+      //width: calc(66.6666% - 5px);
+      //margin-left: 16.3% !important;
     }
   }
 }
