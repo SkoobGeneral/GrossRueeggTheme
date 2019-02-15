@@ -29,7 +29,7 @@ export default {
   },
 
   mounted() {
-    this.getReferencesByTaxId(13) //13 is the ID of the 'featured' category      
+    this.getReferencesByTaxId(2) //2 is the ID of the 'featured' category      
   },
 
   computed: {
